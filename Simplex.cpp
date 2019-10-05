@@ -1,15 +1,14 @@
 #include<stdio.h>
 #include<conio.h>
 #include<stdlib.h>
-/*En vez de preguntar por variables ecuaciones, se debe pedir por cuántas restricciones para así
-  enumerar las variables de holgura. El pedo va a ser como identificar las restricciones tal vez, tal vez 
-  después de pedir el coeficiente de la variable pedir tambien que elija si es menor o igual, mayor o igual,
-  etc.*/
-/*UPDATE: Tas bien pendejo, las variables de holgura son para igualar a huevo en vez de ver si es mayor/menor.
-  Puto.*/
 main(){
 	//AGREGAR ASCII PARA ACENTOS
-	int i,j,v,m,n,r,vr;
+	// r = # de restricciones
+	// varholg = variables de holgura. El número de variables de holgura es igual a la cantidad de res
+	// maxmin = maximización o minimización
+	// vr = valor de la restricción
+	// v = # de varibles en el sistema
+	int c,m,n,v,r,vr;
 	int M[m][n];
 	int maxmin;
 	int varholg;
@@ -20,16 +19,17 @@ main(){
 	if(maxmin<0||maxmin>2){
 		printf("\nFavor de indicar el número de la opción mostrada.\n");
 	}
-	}
-	*/
+	}*/
 	printf("Ingrese la cantidad de restricciones en el sistema: ");
 	scanf("%d",&r);
+	printf("Ingrese la cantidad de variables: ");
+	scanf("%d",&v);
 	for(m=0;m<r;m++){
-		for(n=0;n<r;n++){
-		printf("Ingrese el coeficiente de la variable %d en la ecuación %d ",&n,&m);
-		scanf("%d",&j);
+		for(n=0;n<v;n++){
+		printf("Ingrese el coeficiente de la variable %d en la ecuaci%cn %d ",&n,162,&m);
+		scanf("%d",&c);
 		}
-	printf("Ingrese el resultado de la ecuación: ");
+	printf("Ingrese el resultado de la ecuaci%cn: ",162);
 	scanf("%d",&vr);	
 	}
 	getche();
