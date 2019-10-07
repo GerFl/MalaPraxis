@@ -1,4 +1,4 @@
-#include<stdio.h>
+ #include<stdio.h>
 #include<conio.h>
 #include<stdlib.h>
 main(){
@@ -25,8 +25,11 @@ void max_min(){
 		scanf("%d",&maxmin);
 	} while(maxmin<1 || maxmin>2);
 }
+
 void restricciones(){
 	int m,n,c,v,r,vr;
+	int R[m][n];
+	int V[m][n];
 	printf("Ingrese la cantidad de restricciones en el sistema: ");
 	scanf("%d",&r);
 	printf("Ingrese la cantidad de variables: ");
@@ -34,9 +37,9 @@ void restricciones(){
 	for(m=0;m<r;m++){
 		for(n=0;n<v;n++){
 			printf("Ingrese el coeficiente de la variable %d en la ecuaci%cn %d ",&n,162,&m);
-			scanf("%d",&c);
+			V[m][n]=scanf("%d",n);
 		}
-	printf("Ingrese el resultado de la ecuaci%cn: ",162);
-	scanf("%d",&vr);	
+		printf("Ingrese el resultado de la ecuaci%cn: ",162);
+		scanf("%d",&vr);	
 	}
 }
