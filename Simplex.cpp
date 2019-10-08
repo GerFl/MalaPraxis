@@ -1,8 +1,7 @@
- #include<stdio.h>
+#include<stdio.h>
 #include<conio.h>
 #include<stdlib.h>
 main(){
-	//AGREGAR ASCII PARA ACENTOS
 	// r = # de restricciones
 	// varholg = variables de holgura. El número de variables de holgura es igual a la cantidad de res
 	// maxmin = maximización o minimización
@@ -28,8 +27,8 @@ void max_min(){
 
 void restricciones(){
 	int m,n,c,v,r,vr;
-	int R[m][n];
-	int V[m][n];
+	int R[50][50];
+	int V[50][50];
 	printf("Ingrese la cantidad de restricciones en el sistema: ");
 	scanf("%d",&r);
 	printf("Ingrese la cantidad de variables: ");
@@ -37,7 +36,7 @@ void restricciones(){
 	for(m=0;m<r;m++){
 		for(n=0;n<v;n++){
 			printf("Ingrese el coeficiente de la variable %d en la ecuaci%cn %d ",&n,162,&m);
-			V[m][n]=scanf("%d",n);
+			scanf("%d",&n);
 		}
 		printf("Ingrese el resultado de la ecuaci%cn: ",162);
 		scanf("%d",&vr);	
