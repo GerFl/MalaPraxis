@@ -3,7 +3,6 @@
 #include<stdlib.h>
 #include<ctype.h>
 main(){
-	// checar especificaciones de la función objetivo
 	// r = # de restricciones
 	// varholg = variables de holgura. El número de variables de holgura es igual a la cantidad de res
 	// maxmin = maximización o minimización
@@ -11,16 +10,15 @@ main(){
 	// v = # de variables en el sistema
 	// validación de string
 	// función de tablatura
-	// resolver función objetivo
 	int m,n;
 	int M[m][n];
 	int varholg;
 	void captura_restricciones();
 	void max_min();
-	void tabulacion();
+	void prueba_cociente();
 	max_min();
 	captura_restricciones();
-	//tabulacion();
+	prueba_cociente();
 	getche();
 }
 
@@ -42,15 +40,18 @@ void captura_restricciones(){
 	int R[50];
 	int V[50][50];
 	int F[50];
-	/*printf("Ingrese la función objetivo: ");
-	for(f=0;fo<?;f++){
-		scanf("%d",&fo);
-		F[f]=fo;
-	}*/
+	//CAPTURA DE DATOS Y FUNCIÓN OBJETIVO
 	printf("Ingrese la cantidad de restricciones en el sistema: ");
 	scanf("%d",&r);
 	printf("Ingrese la cantidad de variables: ");
 	scanf("%d",&v);
+	for(m=0;m<1;m++){
+		for(n=1;n<=v;n++){
+			printf("Ingresa el valor de la variable %i en la funci%cn objetivo:",n,162);
+			scanf("%d",&e);
+			V[m][n]=e;
+		}
+	}
 	for(m=1;m<=r;m++){
 		for(n=1;n<=v;n++){
 			printf("Ingrese el coeficiente de la variable %i en la restricci%cn %i: ",n,162,m);
@@ -61,22 +62,32 @@ void captura_restricciones(){
 		scanf("%d",&vr);
 		R[m]=vr;	
 	}
+	//IMPRESIÓN DE LOS DATOS CAPTURADOS
 	for(m=1;m<=r;m++){
-		printf("\nArreglo %d: ",m);
+		printf("\nRestricci%cn %d: ",162,m);
 		for(n=1;n<=v;n++){
 			printf("%d, ",V[m][n]);			
 		}
-		printf("Resultado de la ecuaci%cn: %d",162, R[m]);
-		//printf("%d",R[m]);
+		printf("Resultado de la ecuaci%cn: %d\n",162, R[m]);
 	}
 }
 
-/*void tabulacion(){
-	int i,j,r,v;
-	int V[r][v];
-	for(i=0;i<=r;i++){
-		for(j=0;j<=v;j++){
-			printf("%d",&V[r][v]);
+void prueba_cociente(){
+	int v,t,j,n,i,pivote,X;
+	int P[50]={};
+	printf("Sobres puto, dame el tamaño: ");
+	scanf("%d",&t);
+	for(j=0;j<t;j++){
+		printf("Dame el número, puta: ");
+		scanf("%d",&n);
+		P[j]=n;
+	}
+	pivote=P[0];
+	for(i=0;i<=t;i++){
+		if(pivote>P[i]){
+			pivote=P[i];
+			printf("\t%d",pivote);
 		}
 	}
-}*/
+	printf("\n%d",pivote);
+}
