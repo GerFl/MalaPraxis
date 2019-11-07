@@ -5,19 +5,22 @@
 main(){
 	// r = # de restricciones
 	// varholg = variables de holgura. El número de variables de holgura es igual a la cantidad de res
-	// maxmin = maximización o minimización
 	// vr = valor de la restricción
 	// v = # de variables en el sistema
 	// validación de string
 	// función de tablatura
-	int m,n;
+	int r,v,m,n;
 	int M[m][n];
 	int varholg;
-	void captura_restricciones();
+	void captura_restricciones(int r,int v);
 	void max_min();
 	void prueba_cociente();
 	max_min();
-	captura_restricciones();
+	printf("Ingrese la cantidad de restricciones en el sistema: ");
+	scanf("%d",&r);
+	printf("Ingrese la cantidad de variables: ");
+	scanf("%d",&v);
+	captura_restricciones(r,v);
 	prueba_cociente();
 	getche();
 }
@@ -34,17 +37,13 @@ void max_min(){
 	} while(maxmin<1 || maxmin>2);
 }
 
-void captura_restricciones(){
-	int m,n,v,r,vr,e;
+void captura_restricciones(int r,int v){
+	int m,n,vr,e;
 	int f,fo,i,piv;
 	int R[50];
 	int V[50][50];
 	int F[50];
 	//CAPTURA DE DATOS Y FUNCIÓN OBJETIVO
-	printf("Ingrese la cantidad de restricciones en el sistema: ");
-	scanf("%d",&r);
-	printf("Ingrese la cantidad de variables: ");
-	scanf("%d",&v);
 	for(m=0;m<1;m++){
 		for(n=1;n<=v;n++){
 			printf("Ingresa el valor de la variable %i en la funci%cn objetivo:",n,162);
@@ -63,6 +62,12 @@ void captura_restricciones(){
 		R[m]=vr;	
 	}
 	//IMPRESIÓN DE LOS DATOS CAPTURADOS
+	printf("\nFunci%cn objetivo: ",162);
+	for(m=0;m<1;m++){
+		for(n=1;n<=v;n++){
+			printf("%d x%d + ",V[m][n],n);
+		}
+	}
 	for(m=1;m<=r;m++){
 		printf("\nRestricci%cn %d: ",162,m);
 		for(n=1;n<=v;n++){
