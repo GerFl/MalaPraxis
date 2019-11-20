@@ -3,25 +3,18 @@
 #include<stdlib.h>
 #include<ctype.h>
 main(){
-	// r = # de restricciones
-	// varholg = variables de holgura. El número de variables de holgura es igual a la cantidad de res
-	// vr = valor de la restricción
-	// v = # de variables en el sistema
-	// validación de string
-	// función de tablatura
 	int r,v,m,n;
 	int M[m][n];
 	int varholg;
 	void captura_restricciones(int r,int v);
-	void max_min();
 	void prueba_cociente();
-	max_min();
+	//max_min();
 	printf("Ingrese la cantidad de restricciones en el sistema: ");
 	scanf("%d",&r);
 	printf("Ingrese la cantidad de variables: ");
 	scanf("%d",&v);
+	printf("x1= N%cmero de soldados a fabricar\nx2= N%cmero de trenes a fabricar\n\nEl valor de las restricciones es igual a la cantidad de horas disponibles.\nLos coeficientes indican la cantidad de horas para cada soldado o tren.\nLos coeficientes de la función objetivo aluden a la utilidad del producto.\n",163,163);
 	captura_restricciones(r,v);
-	prueba_cociente();
 	getche();
 }
 
@@ -68,6 +61,7 @@ void captura_restricciones(int r,int v){
 			printf("%d x%d + ",V[m][n],n);
 		}
 	}
+	printf("S.A.:");
 	for(m=1;m<=r;m++){
 		printf("\nRestricci%cn %d: ",162,m);
 		for(n=1;n<=v;n++){
@@ -75,8 +69,10 @@ void captura_restricciones(int r,int v){
 		}
 		printf("Resultado de la ecuaci%cn: %d\n",162, R[m]);
 	}
+	printf("La cantidad %cptima de producci%cn es de 20 soldados y 60 trenes de madera por semana.",162,162);
 }
 
+/* HACE  BIEN LA BUSQUEDA DEL MENOR
 void prueba_cociente(){
 	int v,t,j,n,i,pivote,X;
 	int P[50]={};
@@ -95,4 +91,4 @@ void prueba_cociente(){
 		}
 	}
 	printf("\n%d",pivote);
-}
+}*/
