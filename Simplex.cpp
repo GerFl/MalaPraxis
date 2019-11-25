@@ -2,7 +2,7 @@
 #include<conio.h>
 #include<stdlib.h>
 #include<ctype.h>
-main(){
+main(){//Puto el que lo lea
 	int r,v,m,n;
 	int M[m][n];
 	int varholg;
