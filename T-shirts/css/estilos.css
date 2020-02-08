@@ -62,9 +62,19 @@ h2 {
     text-align: center;
 }
 
+.lista-productos li:nth-child(2n+1) {
+    clear: both;
+}
+
 @media (min-width: 768px) {
     .lista-productos li {
         width: 33.3%;
+    }
+    .lista-productos li:nth-child(2n+1) {
+        clear: unset;
+    }
+    .lista-productos li:nth-child(3n+1) {
+        clear: both;
     }
 }
 
@@ -97,4 +107,9 @@ span.precio {
     text-transform: uppercase;
     font-weight: bold;
     color: #8001C3;
+    transition: background-color .3s ease-in-out;
+}
+
+.boton:hover {
+    background-color: #EBBC00;
 }
