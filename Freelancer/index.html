@@ -8,8 +8,7 @@
     <title>Flexbox - Freelancer</title>
     <link rel="stylesheet" href="css/normalize.css">
     <link href="https://fonts.googleapis.com/css?family=Cantarell:400,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
-    <!--    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTr0xhwjIuvcA67KV2R5Jz6kr4abQsz">-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -22,6 +21,63 @@
             <a href="#">Contacto</a>
         </nav>
     </header>
+    <div class="hero">
+        <div class="contenedor-hero">
+            <h1>Diseño y Desarrollo Freelancer</h1>
+            <p><i class="fas fa-map-marker-alt"></i>Monterrey, Nuevo León</p>
+            <a href="#" class="boton">Contactar</a>
+        </div>
+    </div>
+    <div class="contenedor">
+        <main class="servicios">
+            <h2>Nuestros Servicios</h2>
+            <div class="contenedor-servicios">
+                <div class="servicio">
+                    <h3>Diseño Web</h3>
+                    <div class="iconos"><i class="fas fa-pen-nib"></i></div>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis quidem magnam quia dicta doloremque. Adipisci rem perspiciatis in consequuntur voluptatibus placeat distinctio odio necessitatibus qui, id facilis, nihil voluptate! Tempora.</p>
+                </div>
+                <div class="servicio">
+                    <h3>Aplicaciones Móviles</h3>
+                    <div class="iconos"><i class="fab fa-android"></i><i class="fab fa-apple"></i></div>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis quidem magnam quia dicta doloremque. Adipisci rem perspiciatis in consequuntur voluptatibus placeat distinctio odio necessitatibus qui, id facilis, nihil voluptate! Tempora.</p>
+                </div>
+                <div class="servicio">
+                    <h3>Social Media</h3>
+                    <div class="iconos"><i class="fab fa-twitter"></i><i class="fab fa-facebook-f"></i></div>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis quidem magnam quia dicta doloremque. Adipisci rem perspiciatis in consequuntur voluptatibus placeat distinctio odio necessitatibus qui, id facilis, nihil voluptate! Tempora.</p>
+                </div>
+            </div>
+
+        </main>
+        <section id="contacto" class="contacto">
+            <h2>Contacto</h2>
+            <form action="#">
+                <legend>Contáctanos llenando todos los campos</legend>
+                <div class="contenedor-campos">
+                    <div class="campo">
+                        <label for="">Nombre:</label>
+                        <input type="text" name="nombre" placeholder="Nombre">
+                    </div>
+                    <div class="campo">
+                        <label for="">Teléfono:</label>
+                        <input type="tel" name="teléfono" placeholder="Teléfono">
+                    </div>
+                    <div class="campo">
+                        <label for="">Correo:</label>
+                        <input type="mail" name="correo" placeholder="Correo">
+                    </div>
+                    <div class="campo">
+                        <label for="">Mensaje:</label>
+                        <textarea name="" id="" cols="" rows=""></textarea>
+                    </div>
+                </div>
+                <div class="enviar">
+                    <input type="submit" class="boton" value="Enviar">
+                </div>
+            </form>
+        </section>
+    </div>
 </body>
 
 </html>
