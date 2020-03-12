@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +9,43 @@
     <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
     <link href="https://fonts.googleapis.com/css?family=Staatliches" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    
-</head>
-<body>
 
+</head>
+
+<body>
+    <header class="header">
+        <img src="img/logo.png" alt="Logotipo">
+    </header>
+    <div class="barra">
+        <nav class="nav">
+            <a href="index.html">TIENDA</a>
+            <a href="nosotros.html">NOSOTROS</a>
+        </nav>
+    </div>
+    <main class="contenedor">
+        <h1>Sobre Nosotros</h1>
+        <div class="contenedor-informacion">
+            <img src="img/3.jpg" alt="Imagen-producto">
+            <div class="contenido">
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit veniam deleniti nostrum commodi modi illum maiores architecto! Animi, ducimus libero harum ullam, fugiat tempore sequi, vel voluptas totam consequuntur reprehenderit.</p>
+                <form class="formulario-pedido">
+                    <select class="talla campo">
+                        <option value="C">Chica</option>
+                        <option value="M">Mediana</option>
+                        <option value="G">Grande</option>
+                    </select>
+                    <input type="number" min="1" class="cantidad campo">
+                    <input type="submit" class="boton" value="Agregar al carrito">
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p class="copyright">
+            Front-End Store- Todos los derechos reservados 2020
+        </p>
+    </footer>
 </body>
+
 </html>
