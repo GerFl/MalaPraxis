@@ -24,6 +24,10 @@ a {
     text-decoration: none;
 }
 
+h2 {
+    text-align: center;
+}
+
 .contenedor {
     width: 95%;
     max-width: 100%;
@@ -166,6 +170,31 @@ main h2 {
 
 
 /*CONTACTO*/
+
+.redes {
+    display: flex;
+    justify-content: space-between;
+    padding: 5rem;
+    height: 20rem;
+}
+
+.redes i {
+    color: #72C299;
+    font-size: 3rem;
+    padding: 0;
+}
+
+.brands i {
+    font-size: 4.8rem;
+    margin-left: 2rem;
+    margin-right: 3rem;
+    margin-top: 2rem;
+}
+
+div.map {
+    height: 420px;
+    margin: 4rem;
+}
 
 .contacto {
     width: 90%;
