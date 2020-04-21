@@ -181,6 +181,57 @@ h3 {
 }
 
 
+/** LETTERING **/
+
+h1.nombre-sitio span {
+    position: relative;
+    text-shadow: 0 0 30px black;
+}
+
+@media only screen and (min-width: 992px) {
+    .char1 {
+        top: 20px;
+        right: 20px;
+    }
+    .char2 {
+        top: 0px;
+        left: -20px;
+    }
+    .char3 {
+        top: 10px;
+        right: 20px;
+    }
+    .char4 {
+        top: 5px;
+        right: 10px;
+    }
+    .char5 {
+        top: 15px;
+        right: 10px;
+    }
+    .char6 {
+        top: 5px;
+        left: -10px;
+    }
+    .char7 {
+        top: 10px;
+        left: -15px;
+    }
+    .char8 {
+        top: 0px;
+        right: 10px;
+    }
+    .char9 {
+        top: 10px;
+        right: 20px;
+    }
+    .char10 {
+        top: 10px;
+        right: 20px;
+    }
+}
+
+
 /**HEADER**/
 
 div.hero {
@@ -275,6 +326,14 @@ div.barra {
     padding: 20px 0;
 }
 
+.fixed {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+}
+
 div.logo {
     width: 80%;
     float: left;
@@ -291,8 +350,9 @@ div.logo img {
     }
 }
 
-div.navegacion-principal {
+.navegacion-principal {
     display: none;
+    width: 100%;
 }
 
 div.navegacion-principal a {
@@ -302,6 +362,11 @@ div.navegacion-principal a {
     font-size: 1.3em;
     text-transform: uppercase;
     transition: all .3s ease;
+    width: 100%;
+    display: block;
+    text-align: center;
+    margin-bottom: 20px;
+    clear: both;
 }
 
 div.navegacion-principal a:hover {
@@ -871,6 +936,18 @@ p.copyright {
 
 
 /** INTERNAS **/
+
+
+/** CONFERENCIA **/
+
+body.conferencia .navegacion-principal .activo {
+    border-bottom: 2px solid #FE4918;
+}
+
+div.galeria a {
+    display: inline-block;
+    margin-bottom: 10px;
+}
 
 
 /* REGISTRO */
