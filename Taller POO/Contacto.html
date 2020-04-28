@@ -16,7 +16,7 @@
 
 <body>
     <header>
-        <div class="contenedor content">
+        <div class="contenedor site-header">
             <img src="img/HEART2.png" alt="Logo">
             <p class="eslogan">Su bienestar lo es todo</p>
             <nav class="navegacion">
@@ -26,7 +26,7 @@
             </nav>
         </div>
     </header>
-    <h2>Contacto</h2>
+    <h2 class="cont">Contacto</h2>
 
     <div class="contenedor redes">
         <div class="horario">
@@ -41,8 +41,8 @@
         </div>
     </div>
     <div id="map" class="map"></div>
-    <main class="contenedor content contacto">
-        <form action="" class="contacto">
+    <main>
+        <form action="" class="contenedor formulario">
             <fieldset>
                 <legend>Contacto</legend>
                 <label for="nombre">Nombre</label>
@@ -54,10 +54,11 @@
                 <label for="mensaje">Escribe tu mensaje aquí...</label>
                 <textarea name="mensaje" id="message" cols="30" rows="10"></textarea>
             </fieldset>
+            <input type="submit" value="Enviar" class="enviar">
         </form>
     </main>
     <footer>
-        <div class="contenedor content">
+        <div class="contenedor site-footer">
             <nav class="navegacion">
                 <a href="index.html">Inicio</a>
                 <a href="Servicios.html">Servicios</a>
