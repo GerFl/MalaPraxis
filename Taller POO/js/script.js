@@ -1,4 +1,5 @@
 (function() {
+    "use strict";
     document.addEventListener('DOMContentLoaded', function() {
         if (document.getElementById('map')) {
             var map = L.map('map').setView([25.6710764, -100.3062464], 20);
@@ -12,6 +13,10 @@
                 .bindTooltip('ddFbb')
                 .openTooltip();
         }
+        if (window.screen.width < 768) {
+            $('.delete').hide();
+        } else {
+            $('.delete').show();
+        }
     });
-
 })();
