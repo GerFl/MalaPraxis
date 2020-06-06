@@ -36,7 +36,7 @@ public class login extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/images (1).png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/puñal.png"))); // NOI18N
         jLabel1.setText("jLabel1");
 
         ingresar.setText("Ingresar");

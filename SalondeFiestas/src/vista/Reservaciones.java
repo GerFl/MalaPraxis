@@ -1,14 +1,15 @@
 package vista;
 
-import vista.agregarCliente;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class Reservaciones extends javax.swing.JFrame {
+
     /* CONEXIÓN */
     public static final String URL = "jdbc:mysql://localhost:3306/salon de fiestas";
     public static final String USERNAME = "root";
@@ -26,14 +27,14 @@ public class Reservaciones extends javax.swing.JFrame {
             con = (Connection) DriverManager.getConnection(URL, USERNAME, PASSWORD);
             
         } catch(Exception e){
-            System.out.println(e);
+            JOptionPane.showMessageDialog(null,"No hay conexión con la base de datos.");
         }
         return con;
         
     }
     /* CONEXIÓN */
     
-    private void limpiarCajas(){
+    private void limpiarOpciones(){
         decoracion.setSelected(false);
         platillo.setSelected(false);
         postres.setSelected(false);
@@ -45,7 +46,10 @@ public class Reservaciones extends javax.swing.JFrame {
         invites.setSelected(false);
         musica.setSelected(false);
         show.setSelected(false);
-        cake.setSelected(false);
+        cake.setSelected(false);  
+        renta.setSelected(false);
+        cabina.setSelected(false);
+        barra.setSelected(false);
         decoracion.setEnabled(true);
         platillo.setEnabled(true);
         postres.setEnabled(true);
@@ -58,13 +62,25 @@ public class Reservaciones extends javax.swing.JFrame {
         musica.setEnabled(true);
         show.setEnabled(true);
         cake.setEnabled(true);
+        renta.setEnabled(true);
+        cabina.setEnabled(true);
+        barra.setEnabled(true);
+        cantidadPersonas.setText(null);
+        numeroservicios.setText(null);
+        cantidadPersonas.setText("0");
+    }
+    
+    private void limpiarCajas(){
+        limpiarOpciones();
         paquete.setSelectedIndex(0);
         tipoEvento.setText(null);
         fecha.setText(null);
         duracion.setText(null);
         nombrecliente.setText(null);
         txtId.setText(null);
-        
+        costo.setText(null);
+        int suma=0;
+        costo.setText(Integer.toString(suma));
     }
     
     /**
@@ -73,6 +89,10 @@ public class Reservaciones extends javax.swing.JFrame {
     public Reservaciones() {
         initComponents();
         txtId.setVisible(false);
+        numeroservicios.setVisible(false);
+        cantidadPersonas.setText("0");
+        int suma=0;
+        costo.setText(Integer.toString(suma));
     }
 
     
@@ -139,7 +159,6 @@ public class Reservaciones extends javax.swing.JFrame {
         piñata = new javax.swing.JCheckBox();
         invites = new javax.swing.JCheckBox();
         fotos = new javax.swing.JCheckBox();
-        addserv = new javax.swing.JButton();
         deleteserv = new javax.swing.JButton();
         limpiar = new javax.swing.JButton();
         registrar = new javax.swing.JButton();
@@ -150,7 +169,7 @@ public class Reservaciones extends javax.swing.JFrame {
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 240), new java.awt.Dimension(0, 240), new java.awt.Dimension(32767, 240));
         regresar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        descripcionPaquete = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
@@ -158,6 +177,13 @@ public class Reservaciones extends javax.swing.JFrame {
         fecha = new javax.swing.JTextField();
         duracion = new javax.swing.JTextField();
         txtId = new javax.swing.JTextField();
+        cabina = new javax.swing.JCheckBox();
+        renta = new javax.swing.JCheckBox();
+        barra = new javax.swing.JCheckBox();
+        jLabel24 = new javax.swing.JLabel();
+        cantidadPersonas = new javax.swing.JTextField();
+        numeroservicios = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
 
         jButton2.setText("Agregar servicio");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -527,7 +553,7 @@ public class Reservaciones extends javax.swing.JFrame {
         jLabel11.setText("Servicios");
 
         decoracion.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        decoracion.setText("Decoracion del salon");
+        decoracion.setText("Decoración del salón");
         decoracion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 decoracionActionPerformed(evt);
@@ -544,9 +570,19 @@ public class Reservaciones extends javax.swing.JFrame {
 
         meseros.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         meseros.setText("Meseros durante el evento");
+        meseros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                meserosActionPerformed(evt);
+            }
+        });
 
         show.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         show.setText("Show durante el evento");
+        show.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showActionPerformed(evt);
+            }
+        });
 
         musica.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         musica.setText("Música durante el evento");
@@ -566,26 +602,49 @@ public class Reservaciones extends javax.swing.JFrame {
 
         postres.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         postres.setText("Mesa de postres");
+        postres.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                postresActionPerformed(evt);
+            }
+        });
 
         cake.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cake.setText("Pastel");
+        cake.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cakeActionPerformed(evt);
+            }
+        });
 
         coordinador.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         coordinador.setText("Coordinador durante el evento");
+        coordinador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                coordinadorActionPerformed(evt);
+            }
+        });
 
         piñata.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         piñata.setText("Piñata");
+        piñata.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                piñataActionPerformed(evt);
+            }
+        });
 
         invites.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         invites.setText("Invitaciones");
+        invites.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                invitesActionPerformed(evt);
+            }
+        });
 
         fotos.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         fotos.setText("Fotografías y video durante el evento");
-
-        addserv.setText("Agregar servicio");
-        addserv.addActionListener(new java.awt.event.ActionListener() {
+        fotos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addservActionPerformed(evt);
+                fotosActionPerformed(evt);
             }
         });
 
@@ -623,7 +682,7 @@ public class Reservaciones extends javax.swing.JFrame {
 
         jLabel7.setText("Total:");
 
-        paquete.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Seleccione--", "Paquete 1", "Paquete 2" }));
+        paquete.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ninguno", "Paquete 1", "Paquete 2" }));
         paquete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 paqueteActionPerformed(evt);
@@ -637,18 +696,34 @@ public class Reservaciones extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        descripcionPaquete.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"ss", null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2"
+                "Servicios", "Costo"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(descripcionPaquete);
+        if (descripcionPaquete.getColumnModel().getColumnCount() > 0) {
+            descripcionPaquete.getColumnModel().getColumn(0).setResizable(false);
+            descripcionPaquete.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         jLabel8.setFont(new java.awt.Font("Segoe UI Light", 1, 12)); // NOI18N
         jLabel8.setText("Tipo de evento:");
@@ -672,6 +747,37 @@ public class Reservaciones extends javax.swing.JFrame {
             }
         });
 
+        cabina.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cabina.setText("Cabina fotográfica");
+        cabina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cabinaActionPerformed(evt);
+            }
+        });
+
+        renta.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        renta.setText("Renta del salón");
+        renta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rentaActionPerformed(evt);
+            }
+        });
+
+        barra.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        barra.setText("Barra libre");
+        barra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                barraActionPerformed(evt);
+            }
+        });
+
+        jLabel24.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel24.setText("Cantidad de invitados:");
+
+        jLabel25.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        jLabel25.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel25.setText("Importante");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -679,47 +785,40 @@ public class Reservaciones extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(410, 410, 410))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(regresar))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(fotos)
-                                    .addComponent(coordinador)
-                                    .addComponent(musica))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(show)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(platillo)
-                                            .addComponent(meseros)
-                                            .addComponent(piñata))
-                                        .addGap(8, 8, 8)
+                                            .addComponent(fotos)
+                                            .addComponent(coordinador)
+                                            .addComponent(musica)
+                                            .addComponent(renta))
+                                        .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(invites)
-                                            .addComponent(postres)
-                                            .addComponent(lights)
-                                            .addComponent(cake))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jLabel4)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(show)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel3)
-                                                .addGap(39, 39, 39)
-                                                .addComponent(nombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(42, 42, 42)
-                                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(jLabel5)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(paquete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING))))
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(platillo)
+                                                    .addComponent(meseros)
+                                                    .addComponent(piñata)
+                                                    .addComponent(cabina))
+                                                .addGap(8, 8, 8)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(barra)
+                                                    .addComponent(invites)
+                                                    .addComponent(postres)
+                                                    .addComponent(lights)
+                                                    .addComponent(cake)))))
+                                    .addComponent(jLabel4)
                                     .addComponent(decoracion)
                                     .addComponent(jLabel2)
                                     .addGroup(layout.createSequentialGroup()
@@ -731,37 +830,55 @@ public class Reservaciones extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(tipoEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(duracion, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(addserv)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                                            .addComponent(duracion, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addComponent(jLabel11)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jLabel25))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addGap(10, 10, 10)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(layout.createSequentialGroup()
+                                                    .addComponent(jLabel3)
+                                                    .addGap(39, 39, 39)
+                                                    .addComponent(nombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGap(42, 42, 42)
+                                                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(layout.createSequentialGroup()
+                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                            .addComponent(jLabel5)
+                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                            .addComponent(paquete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING))
+                                                    .addGap(45, 45, 45)
+                                                    .addComponent(jLabel24)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(cantidadPersonas, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
+                                .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(deleteserv)
-                                .addGap(18, 18, 18)
-                                .addComponent(limpiar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(registrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(costo)))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(27, 27, 27))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(regresar)
-                    .addComponent(jLabel1))
-                .addGap(394, 394, 394))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(deleteserv)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(limpiar)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(registrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(costo)))
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                .addGap(27, 27, 27))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(numeroservicios, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6))
+                                .addGap(0, 0, Short.MAX_VALUE))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -785,7 +902,7 @@ public class Reservaciones extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(registrar))
                             .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
@@ -808,11 +925,15 @@ public class Reservaciones extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(paquete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel24)
+                            .addComponent(cantidadPersonas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(paquete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel11)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel25))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -820,26 +941,30 @@ public class Reservaciones extends javax.swing.JFrame {
                             .addComponent(decoracion)
                             .addComponent(platillo)
                             .addComponent(postres))
-                        .addGap(18, 18, 18)
+                        .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(fotos)
                             .addComponent(meseros)
                             .addComponent(lights))
-                        .addGap(10, 10, 10)
+                        .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(coordinador)
                             .addComponent(piñata)
                             .addComponent(invites))
-                        .addGap(11, 11, 11)
+                        .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cake)
                             .addComponent(show)
                             .addComponent(musica))
-                        .addGap(18, 18, 18)
-                        .addComponent(addserv)
-                        .addGap(35, 35, 35)))
-                .addComponent(regresar)
-                .addGap(20, 20, 20))
+                        .addGap(14, 14, 14)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cabina)
+                            .addComponent(renta)
+                            .addComponent(barra)
+                            .addComponent(numeroservicios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(54, 54, 54)
+                        .addComponent(regresar)))
+                .addContainerGap())
         );
 
         meseros.getAccessibleContext().setAccessibleName("");
@@ -849,28 +974,163 @@ public class Reservaciones extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void decoracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decoracionActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) descripcionPaquete.getModel();
+        if(decoracion.isSelected()){
+            int suma=(Integer.parseInt(costo.getText()));
+            costo.setText(Integer.toString(suma+2000));
+            String newtext=numeroservicios.getText()+",01";
+            numeroservicios.setText(newtext);
+            model.addRow(new Object[]{"Decoración del salón", "$2,000"});
+        }
     }//GEN-LAST:event_decoracionActionPerformed
 
     private void platilloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_platilloActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) descripcionPaquete.getModel();
+        if(platillo.isSelected()){
+            int cant=(Integer.parseInt(cantidadPersonas.getText()));
+            if(cant<=0){
+                JOptionPane.showMessageDialog(null, "Indique la cantidad de personas que asistirán.");
+                platillo.setSelected(false);
+            } else{
+                int costoplatillos=50*cant;
+                int suma=(Integer.parseInt(costo.getText()));
+                costo.setText(Integer.toString(suma+costoplatillos));
+                String newtext=numeroservicios.getText()+",02";
+                numeroservicios.setText(newtext);
+                String totalplatillos=Integer.toString(costoplatillos);
+                model.addRow(new Object[]{"Comida", totalplatillos});    
+            }            
+        }
     }//GEN-LAST:event_platilloActionPerformed
 
     private void musicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_musicaActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) descripcionPaquete.getModel();
+        if(musica.isSelected()){
+            int suma=(Integer.parseInt(costo.getText()));
+            costo.setText(Integer.toString(suma+2500));
+            String newtext=numeroservicios.getText()+",05";
+            numeroservicios.setText(newtext);
+            model.addRow(new Object[]{"Música durante el evento", "2500"});
+        }
     }//GEN-LAST:event_musicaActionPerformed
-
-    private void addservActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addservActionPerformed
-        // TODO add your handling code here:
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addservActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void deleteservActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteservActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) this.descripcionPaquete.getModel();
+        int[] rows = descripcionPaquete.getSelectedRows();
+        for(int i=0;i<rows.length;i++){
+            String valor=(String) model.getValueAt(rows[i]-i,1);
+            System.out.println(valor);
+            String cadena = valor;
+            String replace1=cadena.replace("$","");
+            String replace2=replace1.replace(",","");
+            System.out.println(replace2);
+            System.out.println(model.getValueAt(rows[i]-i,1));
+            int costoservicio = (Integer.parseInt(replace2));
+            int suma=(Integer.parseInt(costo.getText()));
+            System.out.println(costoservicio);
+            costo.setText(Integer.toString(suma-costoservicio));
+            System.out.println(costo.getText());
+            
+            String texto=(String) model.getValueAt(rows[i]-i,0);
+            switch (texto){
+                case "Decoración del salón":
+                    String viejos=numeroservicios.getText();
+                    String nuevos=viejos.replace(",01","");
+                    numeroservicios.setText(nuevos);
+                    decoracion.setSelected(false);
+                    break;
+                case "Comida":
+                    String viejos2=numeroservicios.getText();
+                    String nuevos2=viejos2.replace(",02","");
+                    numeroservicios.setText(nuevos2);
+                    platillo.setSelected(false);
+                    break;
+                case "Meseros durante el evento":
+                    String viejos3=numeroservicios.getText();
+                    String nuevos3=viejos3.replace(",03","");
+                    numeroservicios.setText(nuevos3);
+                    meseros.setSelected(false);
+                    break;
+                case "Show durante el evento":
+                    String viejos4=numeroservicios.getText();
+                    String nuevos4=viejos4.replace(",04","");
+                    numeroservicios.setText(nuevos4);
+                    show.setSelected(false);
+                    break;
+                case "Música durante el evento":
+                    String viejos5=numeroservicios.getText();
+                    String nuevos5=viejos5.replace(",05","");
+                    numeroservicios.setText(nuevos5);
+                    musica.setSelected(false);
+                    break;
+                case "Iluminación":
+                    String viejos6=numeroservicios.getText();
+                    String nuevos6=viejos6.replace(",06","");
+                    numeroservicios.setText(nuevos6);
+                    lights.setSelected(false);
+                    break;
+                case "Mesa de postres":
+                    String viejos7=numeroservicios.getText();
+                    String nuevos7=viejos7.replace(",07","");
+                    numeroservicios.setText(nuevos7);
+                    postres.setSelected(false);
+                    break;
+                case "Pastel":
+                    String viejos8=numeroservicios.getText();
+                    String nuevos8=viejos8.replace(",08","");
+                    numeroservicios.setText(nuevos8);
+                    cake.setSelected(false);
+                    break;
+                case "Coordinador durante el evento":
+                    String viejos9=numeroservicios.getText();
+                    String nuevos9=viejos9.replace(",09","");
+                    numeroservicios.setText(nuevos9);
+                    coordinador.setSelected(false);
+                    break;
+                case "Piñata":
+                    String viejos10=numeroservicios.getText();
+                    String nuevos10=viejos10.replace(",10","");
+                    numeroservicios.setText(nuevos10);
+                    piñata.setSelected(false);
+                    break;
+                case "Invitaciones":
+                    String viejos11=numeroservicios.getText();
+                    String nuevos11=viejos11.replace(",11","");
+                    numeroservicios.setText(nuevos11);
+                    invites.setSelected(false);
+                    break;
+                case "Fotografías y video":
+                    String viejos12=numeroservicios.getText();
+                    String nuevos12=viejos12.replace(",12","");
+                    numeroservicios.setText(nuevos12);
+                    fotos.setSelected(false);
+                    break;
+                case "Cabina fotográfica":
+                    String viejos13=numeroservicios.getText();
+                    String nuevos13=viejos13.replace(",13","");
+                    numeroservicios.setText(nuevos13);
+                    cabina.setSelected(false);
+                    break;
+                case "Renta del salón":
+                    String viejos14=numeroservicios.getText();
+                    String nuevos14=viejos14.replace(",14","");
+                    numeroservicios.setText(nuevos14);
+                    renta.setSelected(false);
+                    break;
+                case "Barra libre":
+                    String viejos15=numeroservicios.getText();
+                    String nuevos15=viejos15.replace(",15","");
+                    numeroservicios.setText(nuevos15);
+                    barra.setSelected(false);
+                    break;
+            }
+            
+            model.removeRow(rows[i]-i);
+        }
     }//GEN-LAST:event_deleteservActionPerformed
 
     private void limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarActionPerformed
@@ -879,8 +1139,8 @@ public class Reservaciones extends javax.swing.JFrame {
 
     private void registrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarActionPerformed
         Connection con = null;
-        if(paquete.getSelectedIndex()==0){
-            JOptionPane.showMessageDialog(null,"No se ha seleccionado ningún paquete ni servicio.");
+        if((paquete.getSelectedIndex()==0 && numeroservicios==null) || cantidadPersonas==null || (Integer.parseInt(cantidadPersonas.getText()))<=0){
+            JOptionPane.showMessageDialog(null,"Verifique bien los campos antes de registrar.");
         } else{
             try{
                 con = getConnection();
@@ -892,7 +1152,7 @@ public class Reservaciones extends javax.swing.JFrame {
                 if(rs.next()){
                     txtId.setText(rs.getString("id_cliente"));
                 } else{
-                    JOptionPane.showMessageDialog(null,"");
+                    JOptionPane.showMessageDialog(null,"Cliente no encontrado.");
                 }
 
                 /* REALIZA LA RESERVACION EN LA TABLA 'EVENTO' */
@@ -900,12 +1160,20 @@ public class Reservaciones extends javax.swing.JFrame {
                 ps.setString(1, tipoEvento.getText());
                 ps.setDate(2, Date.valueOf(fecha.getText()));
                 ps.setString(3, duracion.getText());
-                ps.setString(4, costo.getText());
-                ps.setInt(5, 5);
-                if(paquete.getSelectedIndex()==1){
-                    ps.setInt(6, 1);
-                } else if(paquete.getSelectedIndex()==2){
-                    ps.setInt(6, 2);
+                ps.setString(4, "$"+costo.getText());
+                String ahoraSiUltimoReplaceParaElInsert=numeroservicios.getText();
+                String ahilesva=ahoraSiUltimoReplaceParaElInsert.replaceFirst(",","");
+                ps.setString(5, ahilesva);
+                switch (paquete.getSelectedIndex()) {
+                    case 1:
+                        ps.setInt(6, 1);
+                        break;
+                    case 2:
+                        ps.setInt(6, 2);
+                        break;
+                    default:
+                        ps.setInt(6, 0);
+                        break;
                 }
                 ps.setString(7, txtId.getText());
                 int res = ps.executeUpdate();
@@ -919,114 +1187,112 @@ public class Reservaciones extends javax.swing.JFrame {
                 con.close();
 
             } catch(Exception e){
-                System.out.println(e);
+                JOptionPane.showMessageDialog(null,"Error.");
             }
         }
     }//GEN-LAST:event_registrarActionPerformed
 
     private void costoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_costoActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_costoActionPerformed
 
     private void paqueteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paqueteActionPerformed
-        if(paquete.getSelectedIndex()==1){
-            decoracion.setSelected(false);
-            platillo.setSelected(false);
-            postres.setSelected(false);
-            fotos.setSelected(false);
-            meseros.setSelected(false);
-            lights.setSelected(false);
-            coordinador.setSelected(false);
-            piñata.setSelected(false);
-            invites.setSelected(false);
-            musica.setSelected(false);
-            show.setSelected(false);
-            cake.setSelected(false);
-            platillo.setSelected(true);
-            fotos.setSelected(true);
-            meseros.setSelected(true);
-            musica.setSelected(true);
-            cake.setSelected(true);
-            decoracion.setEnabled(false);
-            platillo.setEnabled(false);
-            postres.setEnabled(false);
-            fotos.setEnabled(false);
-            meseros.setEnabled(false);
-            lights.setEnabled(false);
-            coordinador.setEnabled(false);
-            piñata.setEnabled(false);
-            invites.setEnabled(false);
-            musica.setEnabled(false);
-            show.setEnabled(false);
-            cake.setEnabled(false);
-            costo.setText("$23,500");
-            
-        } else if(paquete.getSelectedIndex()==2){
-            decoracion.setSelected(false);
-            platillo.setSelected(false);
-            postres.setSelected(false);
-            fotos.setSelected(false);
-            meseros.setSelected(false);
-            lights.setSelected(false);
-            coordinador.setSelected(false);
-            piñata.setSelected(false);
-            invites.setSelected(false);
-            musica.setSelected(false);
-            show.setSelected(false);
-            cake.setSelected(false);
-            decoracion.setSelected(true);
-            platillo.setSelected(true);
-            postres.setSelected(true);
-            fotos.setSelected(true);
-            meseros.setSelected(true);
-            invites.setSelected(true);
-            musica.setSelected(true);
-            cake.setSelected(true);
-            decoracion.setEnabled(false);
-            platillo.setEnabled(false);
-            postres.setEnabled(false);
-            fotos.setEnabled(false);
-            meseros.setEnabled(false);
-            lights.setEnabled(false);
-            coordinador.setEnabled(false);
-            piñata.setEnabled(false);
-            invites.setEnabled(false);
-            musica.setEnabled(false);
-            show.setEnabled(false);
-            cake.setEnabled(false);
-            costo.setText("$33,500");
-        } else{
-            decoracion.setSelected(false);
-            platillo.setSelected(false);
-            postres.setSelected(false);
-            fotos.setSelected(false);
-            meseros.setSelected(false);
-            lights.setSelected(false);
-            coordinador.setSelected(false);
-            piñata.setSelected(false);
-            invites.setSelected(false);
-            musica.setSelected(false);
-            show.setSelected(false);
-            cake.setSelected(false);
-            decoracion.setEnabled(true);
-            platillo.setEnabled(true);
-            postres.setEnabled(true);
-            fotos.setEnabled(true);
-            meseros.setEnabled(true);
-            lights.setEnabled(true);
-            coordinador.setEnabled(true);
-            piñata.setEnabled(true);
-            invites.setEnabled(true);
-            musica.setEnabled(true);
-            show.setEnabled(true);
-            cake.setEnabled(true);
-            paquete.setSelectedIndex(0);
-            costo.setText(null);
+        switch (paquete.getSelectedIndex()) {
+            case 1:
+                limpiarOpciones();
+                renta.setSelected(true);
+                platillo.setSelected(true);
+                musica.setSelected(true);
+                meseros.setSelected(true);
+                cake.setSelected(true);
+                fotos.setSelected(true);
+                renta.setEnabled(false);
+                platillo.setEnabled(false);
+                musica.setEnabled(false);
+                meseros.setEnabled(false);
+                cake.setEnabled(false);
+                fotos.setEnabled(false);
+                cantidadPersonas.setText("100");
+                costo.setText("23500");
+                descripcionPaquete.setModel(new javax.swing.table.DefaultTableModel(
+                        new String [][] {
+                            {"Renta del salón", "$13,000"},
+                            {"Capacidad de 100 personas", ""},
+                            {"Comida", "$2,000"},
+                            {"Música durante el evento", "$2,500"},
+                            {"Meseros", "$1,500"},
+                            {"Pastel", "$1,750"},
+                            {"Fotografías y video", "$2,500"},
+                        },
+                        new String [] {
+                            "Servicio", "Costo"
+                        }
+                ));
+                
+                
+                break;
+            case 2:
+                limpiarOpciones();
+                renta.setSelected(true);
+                platillo.setSelected(true);
+                musica.setSelected(true);
+                meseros.setSelected(true);
+                cake.setSelected(true);
+                fotos.setSelected(true);
+                decoracion.setSelected(true);
+                postres.setSelected(true);
+                invites.setSelected(true);
+                renta.setEnabled(false);
+                platillo.setEnabled(false);
+                musica.setEnabled(false);
+                meseros.setEnabled(false);
+                cake.setEnabled(false);
+                fotos.setEnabled(false);
+                decoracion.setEnabled(false);
+                postres.setEnabled(false);
+                invites.setEnabled(false);
+                cantidadPersonas.setText("200");
+                costo.setText("33500");
+                descripcionPaquete.setModel(new javax.swing.table.DefaultTableModel(
+                        new String [][] {
+                            {"Renta del salón", "$13,000"},
+                            {"Capacidad de 200 personas", ""},
+                            {"Comida", "$2,000"},
+                            {"Música durante el evento", "$2,500"},
+                            {"Meseros", "$1,500"},
+                            {"Pastel", "$1,750"},
+                            {"Fotografías y video", "$2,500"},
+                            {"Decoración del salón", "$2,000"},
+                            {"Mesa de postres", "$2,500"},
+                            {"Invitaciones", "$2,000"},
+                        },
+                        new String [] {
+                            "Servicio", "Costo"
+                        }
+                )); break;
+            default:
+                limpiarOpciones();
+                descripcionPaquete.setModel(new javax.swing.table.DefaultTableModel(
+                        new String[][] {
+                        },
+                        new String [] {
+                            "Servicio", "Costo"
+                        }
+                ));
+                break;
         }
+        
     }//GEN-LAST:event_paqueteActionPerformed
 
     private void lightsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lightsActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) descripcionPaquete.getModel();
+        if(lights.isSelected()){
+            int suma=(Integer.parseInt(costo.getText()));
+            costo.setText(Integer.toString(suma+1000));
+            String newtext=numeroservicios.getText()+",06";
+            numeroservicios.setText(newtext);
+            model.addRow(new Object[]{"Iluminación", "$1,000"});
+        }
     }//GEN-LAST:event_lightsActionPerformed
 
     private void jCheckBox13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox13ActionPerformed
@@ -1087,6 +1353,144 @@ public class Reservaciones extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tipoEventoActionPerformed
 
+    private void barraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barraActionPerformed
+        DefaultTableModel model = (DefaultTableModel) descripcionPaquete.getModel();
+        if(barra.isSelected()){
+            int cant=(Integer.parseInt(cantidadPersonas.getText()));
+            if(cant<=0){
+                JOptionPane.showMessageDialog(null, "Indique la cantidad de personas que asistirán.");
+                barra.setSelected(false);
+            } else{
+                int costobarra=120*cant;
+                int suma=(Integer.parseInt(costo.getText()));
+                costo.setText(Integer.toString(suma+costobarra));
+                String newtext=numeroservicios.getText()+",15";
+                numeroservicios.setText(newtext);
+                String totalbarra=Integer.toString(costobarra);
+                model.addRow(new Object[]{"Barra libre", totalbarra});
+            }
+        }
+    }//GEN-LAST:event_barraActionPerformed
+
+    private void postresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_postresActionPerformed
+        DefaultTableModel model = (DefaultTableModel) descripcionPaquete.getModel();
+        if(postres.isSelected()){
+            int suma=(Integer.parseInt(costo.getText()));
+            costo.setText(Integer.toString(suma+2500));
+            String newtext=numeroservicios.getText()+",07";
+            numeroservicios.setText(newtext);
+            model.addRow(new Object[]{"Mesa de postres", "$2,500"});
+        }
+    }//GEN-LAST:event_postresActionPerformed
+
+    private void fotosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fotosActionPerformed
+        DefaultTableModel model = (DefaultTableModel) descripcionPaquete.getModel();
+        if(fotos.isSelected()){
+            int suma=(Integer.parseInt(costo.getText()));
+            costo.setText(Integer.toString(suma+2500));
+            String newtext=numeroservicios.getText()+",12";
+            numeroservicios.setText(newtext);
+            model.addRow(new Object[]{"Fotografías y video", "$2,500"});
+        }
+    }//GEN-LAST:event_fotosActionPerformed
+
+    private void meserosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_meserosActionPerformed
+        DefaultTableModel model = (DefaultTableModel) descripcionPaquete.getModel();
+        if(meseros.isSelected()){
+            int suma=(Integer.parseInt(costo.getText()));
+            costo.setText(Integer.toString(suma+1500));
+            String newtext=numeroservicios.getText()+",03";
+            numeroservicios.setText(newtext);
+            model.addRow(new Object[]{"Meseros durante el evento", "$1,500"});
+        }
+    }//GEN-LAST:event_meserosActionPerformed
+
+    private void coordinadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coordinadorActionPerformed
+        DefaultTableModel model = (DefaultTableModel) descripcionPaquete.getModel();
+        if(coordinador.isSelected()){
+            int suma=(Integer.parseInt(costo.getText()));
+            costo.setText(Integer.toString(suma+1000));
+            String newtext=numeroservicios.getText()+",09";
+            numeroservicios.setText(newtext);
+            model.addRow(new Object[]{"Coordinador durante el evento", "$1,000"});
+        }
+    }//GEN-LAST:event_coordinadorActionPerformed
+
+    private void piñataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_piñataActionPerformed
+        DefaultTableModel model = (DefaultTableModel) descripcionPaquete.getModel();
+        if(piñata.isSelected()){
+            int suma=(Integer.parseInt(costo.getText()));
+            costo.setText(Integer.toString(suma+450));
+            String newtext=numeroservicios.getText()+",10";
+            numeroservicios.setText(newtext);
+            model.addRow(new Object[]{"Piñata", "$450"});
+        }
+    }//GEN-LAST:event_piñataActionPerformed
+
+    private void invitesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invitesActionPerformed
+        DefaultTableModel model = (DefaultTableModel) descripcionPaquete.getModel();
+        if(invites.isSelected()){
+            int cant=(Integer.parseInt(cantidadPersonas.getText()));
+            if(cant<=0){
+                JOptionPane.showMessageDialog(null, "Indique la cantidad de personas que asistirán.");
+                invites.setSelected(false);
+            }
+            else{
+                int costoinvitaciones=10*cant;
+                int suma=(Integer.parseInt(costo.getText()));
+                costo.setText(Integer.toString(suma+costoinvitaciones));
+                String newtext=numeroservicios.getText()+",11";
+                numeroservicios.setText(newtext);
+                String totalinvitaciones=Integer.toString(costoinvitaciones);
+                model.addRow(new Object[]{"Invitaciones", totalinvitaciones});
+            }
+        }
+    }//GEN-LAST:event_invitesActionPerformed
+
+    private void showActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showActionPerformed
+        DefaultTableModel model = (DefaultTableModel) descripcionPaquete.getModel();
+        if(show.isSelected()){
+            int suma=(Integer.parseInt(costo.getText()));
+            costo.setText(Integer.toString(suma+3500));
+            String newtext=numeroservicios.getText()+",04";
+            numeroservicios.setText(newtext);
+            model.addRow(new Object[]{"Show durante el evento", "$3,500"});
+        }
+    }//GEN-LAST:event_showActionPerformed
+
+    private void cakeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cakeActionPerformed
+        DefaultTableModel model = (DefaultTableModel) descripcionPaquete.getModel();
+        if(cake.isSelected()){
+            int suma=(Integer.parseInt(costo.getText()));
+            costo.setText(Integer.toString(suma+1750));
+            String newtext=numeroservicios.getText()+",08";
+            numeroservicios.setText(newtext);
+            model.addRow(new Object[]{"Pastel", "$1,750"});
+        }
+    }//GEN-LAST:event_cakeActionPerformed
+
+    private void rentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentaActionPerformed
+        DefaultTableModel model = (DefaultTableModel) descripcionPaquete.getModel();
+        if(renta.isSelected()){
+            int suma=(Integer.parseInt(costo.getText()));
+            costo.setText(Integer.toString(suma+13000));
+            String newtext=numeroservicios.getText()+",14";
+            numeroservicios.setText(newtext);
+            model.addRow(new Object[]{"Renta del salón", "$13,000"});
+        }
+    }//GEN-LAST:event_rentaActionPerformed
+
+    private void cabinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cabinaActionPerformed
+        DefaultTableModel model = (DefaultTableModel) descripcionPaquete.getModel();
+        if(cabina.isSelected()){
+            int suma=(Integer.parseInt(costo.getText()));
+            costo.setText(Integer.toString(suma+2000));
+            String newtext=numeroservicios.getText()+",13";
+            numeroservicios.setText(newtext);
+            model.addRow(new Object[]{"Cabina fotográfica", "$2,000"});
+        }
+    }//GEN-LAST:event_cabinaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1124,12 +1528,15 @@ public class Reservaciones extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton addserv;
+    private javax.swing.JCheckBox barra;
+    private javax.swing.JCheckBox cabina;
     public javax.swing.JCheckBox cake;
+    private javax.swing.JTextField cantidadPersonas;
     public javax.swing.JCheckBox coordinador;
-    private javax.swing.JTextField costo;
+    public javax.swing.JTextField costo;
     public javax.swing.JCheckBox decoracion;
     private javax.swing.JButton deleteserv;
+    public javax.swing.JTable descripcionPaquete;
     private javax.swing.JTextField duracion;
     private javax.swing.JTextField fecha;
     private javax.swing.Box.Filler filler1;
@@ -1173,6 +1580,8 @@ public class Reservaciones extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1181,7 +1590,6 @@ public class Reservaciones extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
@@ -1193,12 +1601,14 @@ public class Reservaciones extends javax.swing.JFrame {
     public javax.swing.JCheckBox meseros;
     public javax.swing.JCheckBox musica;
     public javax.swing.JTextField nombrecliente;
-    private javax.swing.JComboBox<String> paquete;
+    private javax.swing.JTextField numeroservicios;
+    public javax.swing.JComboBox<String> paquete;
     public javax.swing.JCheckBox piñata;
     public javax.swing.JCheckBox platillo;
     public javax.swing.JCheckBox postres;
     private javax.swing.JButton registrar;
     private javax.swing.JButton regresar;
+    private javax.swing.JCheckBox renta;
     public javax.swing.JCheckBox show;
     private javax.swing.JTextField tipoEvento;
     private javax.swing.JTextField txtId;
