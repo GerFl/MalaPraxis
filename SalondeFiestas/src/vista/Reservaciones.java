@@ -89,7 +89,7 @@ public class Reservaciones extends javax.swing.JFrame {
     public Reservaciones() {
         initComponents();
         txtId.setVisible(false);
-        numeroservicios.setVisible(false);
+        
         cantidadPersonas.setText("0");
         int suma=0;
         costo.setText(Integer.toString(suma));
@@ -774,6 +774,8 @@ public class Reservaciones extends javax.swing.JFrame {
         jLabel24.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel24.setText("Cantidad de invitados:");
 
+        numeroservicios.setEnabled(false);
+
         jLabel25.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(255, 51, 51));
         jLabel25.setText("Importante");
@@ -981,6 +983,7 @@ public class Reservaciones extends javax.swing.JFrame {
             String newtext=numeroservicios.getText()+",01";
             numeroservicios.setText(newtext);
             model.addRow(new Object[]{"Decoración del salón", "$2,000"});
+            decoracion.setEnabled(false);
         }
     }//GEN-LAST:event_decoracionActionPerformed
 
@@ -999,6 +1002,7 @@ public class Reservaciones extends javax.swing.JFrame {
                 numeroservicios.setText(newtext);
                 String totalplatillos=Integer.toString(costoplatillos);
                 model.addRow(new Object[]{"Comida", totalplatillos});    
+                platillo.setEnabled(false);
             }            
         }
     }//GEN-LAST:event_platilloActionPerformed
@@ -1011,6 +1015,7 @@ public class Reservaciones extends javax.swing.JFrame {
             String newtext=numeroservicios.getText()+",05";
             numeroservicios.setText(newtext);
             model.addRow(new Object[]{"Música durante el evento", "2500"});
+            musica.setEnabled(false);
         }
     }//GEN-LAST:event_musicaActionPerformed
 
@@ -1042,90 +1047,105 @@ public class Reservaciones extends javax.swing.JFrame {
                     String nuevos=viejos.replace(",01","");
                     numeroservicios.setText(nuevos);
                     decoracion.setSelected(false);
+                    decoracion.setEnabled(true);
                     break;
                 case "Comida":
                     String viejos2=numeroservicios.getText();
                     String nuevos2=viejos2.replace(",02","");
                     numeroservicios.setText(nuevos2);
                     platillo.setSelected(false);
+                    platillo.setEnabled(true);
                     break;
                 case "Meseros durante el evento":
                     String viejos3=numeroservicios.getText();
                     String nuevos3=viejos3.replace(",03","");
                     numeroservicios.setText(nuevos3);
                     meseros.setSelected(false);
+                    meseros.setEnabled(true);
                     break;
                 case "Show durante el evento":
                     String viejos4=numeroservicios.getText();
                     String nuevos4=viejos4.replace(",04","");
                     numeroservicios.setText(nuevos4);
                     show.setSelected(false);
+                    show.setEnabled(true);
                     break;
                 case "Música durante el evento":
                     String viejos5=numeroservicios.getText();
                     String nuevos5=viejos5.replace(",05","");
                     numeroservicios.setText(nuevos5);
                     musica.setSelected(false);
+                    musica.setEnabled(true);
                     break;
                 case "Iluminación":
                     String viejos6=numeroservicios.getText();
                     String nuevos6=viejos6.replace(",06","");
                     numeroservicios.setText(nuevos6);
                     lights.setSelected(false);
+                    lights.setEnabled(true);
                     break;
                 case "Mesa de postres":
                     String viejos7=numeroservicios.getText();
                     String nuevos7=viejos7.replace(",07","");
                     numeroservicios.setText(nuevos7);
                     postres.setSelected(false);
+                    postres.setEnabled(true);
                     break;
                 case "Pastel":
                     String viejos8=numeroservicios.getText();
                     String nuevos8=viejos8.replace(",08","");
                     numeroservicios.setText(nuevos8);
                     cake.setSelected(false);
+                    cake.setEnabled(true);
                     break;
                 case "Coordinador durante el evento":
                     String viejos9=numeroservicios.getText();
                     String nuevos9=viejos9.replace(",09","");
                     numeroservicios.setText(nuevos9);
                     coordinador.setSelected(false);
+                    coordinador.setEnabled(true);
                     break;
                 case "Piñata":
                     String viejos10=numeroservicios.getText();
                     String nuevos10=viejos10.replace(",10","");
                     numeroservicios.setText(nuevos10);
                     piñata.setSelected(false);
+                    piñata.setEnabled(true);
                     break;
                 case "Invitaciones":
                     String viejos11=numeroservicios.getText();
                     String nuevos11=viejos11.replace(",11","");
                     numeroservicios.setText(nuevos11);
                     invites.setSelected(false);
+                    invites.setEnabled(true);
                     break;
                 case "Fotografías y video":
                     String viejos12=numeroservicios.getText();
                     String nuevos12=viejos12.replace(",12","");
                     numeroservicios.setText(nuevos12);
                     fotos.setSelected(false);
+                    fotos.setEnabled(true);
                     break;
                 case "Cabina fotográfica":
                     String viejos13=numeroservicios.getText();
                     String nuevos13=viejos13.replace(",13","");
                     numeroservicios.setText(nuevos13);
                     cabina.setSelected(false);
+                    cabina.setEnabled(true);
                     break;
                 case "Renta del salón":
                     String viejos14=numeroservicios.getText();
                     String nuevos14=viejos14.replace(",14","");
                     numeroservicios.setText(nuevos14);
                     renta.setSelected(false);
+                    renta.setEnabled(true);
                     break;
                 case "Barra libre":
                     String viejos15=numeroservicios.getText();
                     String nuevos15=viejos15.replace(",15","");
                     numeroservicios.setText(nuevos15);
                     barra.setSelected(false);
+                    barra.setEnabled(true);
                     break;
             }
             
@@ -1139,9 +1159,6 @@ public class Reservaciones extends javax.swing.JFrame {
 
     private void registrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarActionPerformed
         Connection con = null;
-        if((paquete.getSelectedIndex()==0 && numeroservicios==null) || cantidadPersonas==null || (Integer.parseInt(cantidadPersonas.getText()))<=0){
-            JOptionPane.showMessageDialog(null,"Verifique bien los campos antes de registrar.");
-        } else{
             try{
                 con = getConnection();
 
@@ -1176,20 +1193,23 @@ public class Reservaciones extends javax.swing.JFrame {
                         break;
                 }
                 ps.setString(7, txtId.getText());
-                int res = ps.executeUpdate();
-                if(res>0){
-                    JOptionPane.showMessageDialog(null, "Evento reservado.");
-                    limpiarCajas();
+                if(paquete.getSelectedIndex()==0 && ahilesva.equals("")){
+                    JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún paquete ni servicio.");
                 } else{
-                    JOptionPane.showMessageDialog(null, "Error en uno de los campos.");
-                    limpiarCajas();
+                    int res = ps.executeUpdate();
+                    if(res>0){
+                        JOptionPane.showMessageDialog(null, "Evento reservado.");
+                        limpiarCajas();
+                    } else{
+                        JOptionPane.showMessageDialog(null, "Error en uno de los campos.");
+                        limpiarCajas();
+                    }
+                    con.close();
                 }
-                con.close();
 
             } catch(Exception e){
                 JOptionPane.showMessageDialog(null,"Error.");
             }
-        }
     }//GEN-LAST:event_registrarActionPerformed
 
     private void costoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_costoActionPerformed
@@ -1272,6 +1292,7 @@ public class Reservaciones extends javax.swing.JFrame {
                 )); break;
             default:
                 limpiarOpciones();
+                costo.setText("0");
                 descripcionPaquete.setModel(new javax.swing.table.DefaultTableModel(
                         new String[][] {
                         },
@@ -1292,6 +1313,7 @@ public class Reservaciones extends javax.swing.JFrame {
             String newtext=numeroservicios.getText()+",06";
             numeroservicios.setText(newtext);
             model.addRow(new Object[]{"Iluminación", "$1,000"});
+            lights.setEnabled(false);
         }
     }//GEN-LAST:event_lightsActionPerformed
 
@@ -1368,6 +1390,7 @@ public class Reservaciones extends javax.swing.JFrame {
                 numeroservicios.setText(newtext);
                 String totalbarra=Integer.toString(costobarra);
                 model.addRow(new Object[]{"Barra libre", totalbarra});
+                barra.setEnabled(false);
             }
         }
     }//GEN-LAST:event_barraActionPerformed
@@ -1380,6 +1403,7 @@ public class Reservaciones extends javax.swing.JFrame {
             String newtext=numeroservicios.getText()+",07";
             numeroservicios.setText(newtext);
             model.addRow(new Object[]{"Mesa de postres", "$2,500"});
+            postres.setEnabled(false);
         }
     }//GEN-LAST:event_postresActionPerformed
 
@@ -1391,6 +1415,7 @@ public class Reservaciones extends javax.swing.JFrame {
             String newtext=numeroservicios.getText()+",12";
             numeroservicios.setText(newtext);
             model.addRow(new Object[]{"Fotografías y video", "$2,500"});
+            fotos.setEnabled(false);
         }
     }//GEN-LAST:event_fotosActionPerformed
 
@@ -1402,6 +1427,7 @@ public class Reservaciones extends javax.swing.JFrame {
             String newtext=numeroservicios.getText()+",03";
             numeroservicios.setText(newtext);
             model.addRow(new Object[]{"Meseros durante el evento", "$1,500"});
+            meseros.setEnabled(false);
         }
     }//GEN-LAST:event_meserosActionPerformed
 
@@ -1413,6 +1439,7 @@ public class Reservaciones extends javax.swing.JFrame {
             String newtext=numeroservicios.getText()+",09";
             numeroservicios.setText(newtext);
             model.addRow(new Object[]{"Coordinador durante el evento", "$1,000"});
+            coordinador.setEnabled(false);
         }
     }//GEN-LAST:event_coordinadorActionPerformed
 
@@ -1424,6 +1451,7 @@ public class Reservaciones extends javax.swing.JFrame {
             String newtext=numeroservicios.getText()+",10";
             numeroservicios.setText(newtext);
             model.addRow(new Object[]{"Piñata", "$450"});
+            piñata.setEnabled(false);
         }
     }//GEN-LAST:event_piñataActionPerformed
 
@@ -1443,6 +1471,7 @@ public class Reservaciones extends javax.swing.JFrame {
                 numeroservicios.setText(newtext);
                 String totalinvitaciones=Integer.toString(costoinvitaciones);
                 model.addRow(new Object[]{"Invitaciones", totalinvitaciones});
+                invites.setEnabled(false);
             }
         }
     }//GEN-LAST:event_invitesActionPerformed
@@ -1455,6 +1484,7 @@ public class Reservaciones extends javax.swing.JFrame {
             String newtext=numeroservicios.getText()+",04";
             numeroservicios.setText(newtext);
             model.addRow(new Object[]{"Show durante el evento", "$3,500"});
+            show.setEnabled(false);
         }
     }//GEN-LAST:event_showActionPerformed
 
@@ -1466,6 +1496,7 @@ public class Reservaciones extends javax.swing.JFrame {
             String newtext=numeroservicios.getText()+",08";
             numeroservicios.setText(newtext);
             model.addRow(new Object[]{"Pastel", "$1,750"});
+            cake.setEnabled(false);
         }
     }//GEN-LAST:event_cakeActionPerformed
 
@@ -1477,6 +1508,7 @@ public class Reservaciones extends javax.swing.JFrame {
             String newtext=numeroservicios.getText()+",14";
             numeroservicios.setText(newtext);
             model.addRow(new Object[]{"Renta del salón", "$13,000"});
+            renta.setEnabled(false);
         }
     }//GEN-LAST:event_rentaActionPerformed
 
@@ -1488,6 +1520,7 @@ public class Reservaciones extends javax.swing.JFrame {
             String newtext=numeroservicios.getText()+",13";
             numeroservicios.setText(newtext);
             model.addRow(new Object[]{"Cabina fotográfica", "$2,000"});
+            cabina.setEnabled(false);
         }
     }//GEN-LAST:event_cabinaActionPerformed
 

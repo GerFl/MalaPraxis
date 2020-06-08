@@ -31,9 +31,15 @@
                   <Component id="reserve" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="queue" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="adduser" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="exitOnClose" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="118" max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+              <Component id="closesession" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="exitOnClose" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -49,7 +55,10 @@
               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
               <Component id="adduser" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="44" max="32767" attributes="0"/>
-              <Component id="exitOnClose" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="closesession" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="exitOnClose" alignment="1" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -109,6 +118,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exitOnCloseActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="closesession">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cerrar sesi&#xf3;n"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="closesessionActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

@@ -59,7 +59,7 @@ public class verReservaciones extends javax.swing.JFrame {
             modelo.addColumn("Servicios");
             modelo.addColumn("Paquete");
             modelo.addColumn("ID del cliente");
-            int[] anchos={50,250,250,200,200,200,200,250};
+            int[] anchos={50,250,250,200,200,400,100,150};
             for(int x=0;x<cantidadColumnas;x++){
                 reservaciones.getColumnModel().getColumn(x).setPreferredWidth(anchos[x]);
             }
@@ -82,7 +82,7 @@ public class verReservaciones extends javax.swing.JFrame {
             tablaclientes.addColumn("Teléfono");
             tablaclientes.addColumn("Dirección");
             tablaclientes.addColumn("Correo electrónico");
-            int[] widths={50,250,250,200,200,200,200,250};
+            int[] widths={50,250,250,50,200,200,300,300};
             for(int x=0;x<cantcolumnas;x++){
                 clientes.getColumnModel().getColumn(x).setPreferredWidth(widths[x]);
             }

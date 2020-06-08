@@ -1258,6 +1258,9 @@
     <Component class="javax.swing.JTextField" name="cantidadPersonas">
     </Component>
     <Component class="javax.swing.JTextField" name="numeroservicios">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel25">
       <Properties>

@@ -23,6 +23,7 @@ public class menuPrincipal extends javax.swing.JFrame {
         queue = new javax.swing.JButton();
         adduser = new javax.swing.JButton();
         exitOnClose = new javax.swing.JButton();
+        closesession = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(false);
@@ -67,6 +68,13 @@ public class menuPrincipal extends javax.swing.JFrame {
             }
         });
 
+        closesession.setText("Cerrar sesión");
+        closesession.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closesessionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -77,9 +85,14 @@ public class menuPrincipal extends javax.swing.JFrame {
                     .addComponent(addClient)
                     .addComponent(reserve)
                     .addComponent(queue)
-                    .addComponent(adduser)
-                    .addComponent(exitOnClose))
+                    .addComponent(adduser))
                 .addContainerGap(118, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(78, 78, 78)
+                .addComponent(closesession)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(exitOnClose)
+                .addGap(85, 85, 85))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -93,7 +106,9 @@ public class menuPrincipal extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addComponent(adduser)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addComponent(exitOnClose)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(closesession, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(exitOnClose, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
 
@@ -128,6 +143,12 @@ public class menuPrincipal extends javax.swing.JFrame {
         second.setVisible(true);
         setVisible(false);   
     }//GEN-LAST:event_queueActionPerformed
+
+    private void closesessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closesessionActionPerformed
+        login second = new login();
+        second.setVisible(true);
+        setVisible(false);   
+    }//GEN-LAST:event_closesessionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -168,6 +189,7 @@ public class menuPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addClient;
     private javax.swing.JButton adduser;
+    private javax.swing.JButton closesession;
     private javax.swing.JButton exitOnClose;
     private javax.swing.JButton queue;
     private javax.swing.JButton reserve;
