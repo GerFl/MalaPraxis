@@ -1,13 +1,38 @@
 package vista;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import salondefiestas.hash;
 
 public class login extends javax.swing.JFrame {
-
+         /* CONEXIÓN */
+    public static final String URL = "jdbc:mysql://localhost:3306/salon de fiestas";
+    public static final String USERNAME = "root";
+    public static final String PASSWORD = "";
+    
+    PreparedStatement ps;
+    ResultSet rs;
+    
+    public static Connection getConnection(){
+        Connection con = null;
+        
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = (Connection) DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null,"No hay conexión con la base de datos.");
+        }
+        return con;
+    }
+    /* CONEXIÓN */
     
     public login() {
         initComponents();
-        
+        jTextField1.setVisible(true);
+        jTextField2.setVisible(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -20,6 +45,8 @@ public class login extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         ingresar = new javax.swing.JButton();
         contraseña = new javax.swing.JPasswordField();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -52,6 +79,10 @@ public class login extends javax.swing.JFrame {
             }
         });
 
+        jTextField1.setEnabled(false);
+
+        jTextField2.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -59,27 +90,38 @@ public class login extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(145, 145, 145)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtlabel2)
-                            .addComponent(txtlabel))
-                        .addGap(62, 62, 62)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(110, 110, 110)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtlabel2)
+                                    .addComponent(txtlabel))
+                                .addGap(62, 62, 62)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(usuario, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                                    .addComponent(contraseña)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(217, 217, 217)
+                                .addComponent(ingresar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(145, 145, 145)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 147, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(usuario, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                            .addComponent(contraseña)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(217, 217, 217)
-                        .addComponent(ingresar)))
-                .addContainerGap(157, Short.MAX_VALUE))
+                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtlabel)
@@ -98,14 +140,32 @@ public class login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarActionPerformed
-        String password = new String(contraseña.getPassword());
-        if(usuario.getText().equals("Gerardo") && password.equals("pass")){
-        menuPrincipal second = new menuPrincipal();
-        second.setVisible(true);
-        setVisible(false);   
-        } else{
-            JOptionPane.showMessageDialog(null, "Acceso denegado.");
-        }
+          Connection con=null;
+        try{
+            con=getConnection();
+            ps=con.prepareStatement("SELECT Nombre, contraseña FROM usuario WHERE Nombre = ?");
+            ps.setString(1, usuario.getText());
+            rs=ps.executeQuery();
+            if(rs.next()){
+                jTextField1.setText(rs.getString("Nombre"));
+                jTextField2.setText(rs.getString("contraseña"));
+                String passwordlogin = new String(contraseña.getPassword());
+                String nuevopass=hash.sha1(passwordlogin);
+
+                if(usuario.getText().equals(jTextField1.getText()) && nuevopass.equals(jTextField2.getText())){
+                menuPrincipal second = new menuPrincipal();
+                second.setVisible(true);
+                setVisible(false);   
+                } else{
+                    JOptionPane.showMessageDialog(null, "Acceso denegado.");
+                }
+
+            } else{
+                JOptionPane.showMessageDialog(null,"Verifique bien los campos.");
+            }
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Error.");
+        }                                  
     }//GEN-LAST:event_ingresarActionPerformed
 
     private void usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioActionPerformed
@@ -155,6 +215,8 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JPasswordField contraseña;
     private javax.swing.JButton ingresar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel txtlabel;
     private javax.swing.JLabel txtlabel2;
     private javax.swing.JTextField usuario;

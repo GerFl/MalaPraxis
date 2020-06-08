@@ -350,18 +350,27 @@ select {
 
 .descripcion {
     background-color: #000000;
-    display: flex;
+    display: block;
     color: #FFFFFF;
     text-align: center;
+    padding: 1rem;
 }
 
 .descripcion p {
-    padding: 2rem;
-    line-height: 1.8;
-    font-size: 2rem;
-    margin: 1rem;
+    line-height: 1.7;
 }
 
-.descripcion h2 {
-    font-size: 3.8rem;
+@media (min-width: 768px) {
+    .descripcion {
+        display: flex;
+    }
+    .descripcion p {
+        padding: 2rem;
+        line-height: 1.8;
+        font-size: 2rem;
+        margin: 1rem;
+    }
+    .descripcion h2 {
+        font-size: 3.8rem;
+    }
 }

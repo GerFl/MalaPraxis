@@ -13,6 +13,17 @@
                 .bindTooltip('ddFbb')
                 .openTooltip();
         }
+
+        enviar.addEventListener('click', checampos);
+
+        function checampos() {
+            if (document.getElementById("nombre").value == "" || document.getElementById("email").value == "" || document.getElementById("telefono").value == "" || document.getElementById("message").value == "") {
+                alert("Por favor llene todos los campos");
+            } else {
+                alert("Mensaje enviado.");
+            }
+        }
+
         if (window.screen.width < 768) {
             $('.delete').hide();
         } else {
