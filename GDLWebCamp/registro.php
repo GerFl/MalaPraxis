@@ -1,72 +1,8 @@
-<!doctype html>
-<html class="no-js" lang="">
+<?php include_once 'includes/templates/header.php'; ?>
 
-<head>
-    <meta charset="utf-8">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="manifest" href="site.webmanifest">
-    <link rel="apple-touch-icon" href="icon.png">
-    <!-- Place favicon.ico in the root directory -->
-    <link rel="stylesheet" href="css/all.css">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Oswald|PT+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/main.css">
-
-    <meta name="theme-color" content="#fafafa">
-</head>
-
-<body>
-    <!--[if IE]>
-    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-  <![endif]-->
-
-    <!-- Add your site or application content here -->
-    <header class="site-header">
-        <div class="hero">
-            <div class="contenido-header">
-                <nav class="redes-sociales">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </nav>
-                <div class="informacion-evento">
-                    <div class="clearfix">
-                        <p class="fecha"><i class="fas fa-calendar-alt"></i> 10-12 Dic</p>
-                        <p class="ciudad"><i class="fas fa-map-marked"></i> Guadalajara, Mx</p>
-                    </div>
-                    <h1 class="nombre-sitio">GDLWebCamp</h1>
-                    <p class="eslogan">La mejor conferencia de <span>diseño web</span></p>
-                </div>
-            </div>
-        </div>
-    </header>
-    <div class="barra">
-        <div class="contenedor clearfix">
-            <div class="logo">
-                <img src="img/logo.svg" alt="Logo GDLWebCamp">
-            </div>
-            <div class="menu-movil">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <div class="navegacion-principal clearfix">
-                <a href="#">Conferencia</a>
-                <a href="#">Calendario</a>
-                <a href="#">Invitados</a>
-                <a href="registro.html">Reservaciones</a>
-            </div>
-        </div>
-    </div>
-    <!--Cierra de la barra-->
     <section class="seccion contenedor">
         <h2>Registro de Usuarios</h2>
-        <form id="registro" class="registro" action="index.html" method="POST">
+        <form id="registro" class="registro" action="validar_registro.php" method="POST">
             <div id="datos_usuario" class="registro caja clearfix">
                 <div class="campo">
                     <label for="nombre">Nombre: </label>
@@ -98,7 +34,7 @@
                             </ul>
                             <div class="orden">
                                 <label for="pase_dia">Boletos deseados:</label>
-                                <input type="number" min="0" id="pase_dia" size="2" placeholder="0">
+                                <input type="number" min="0" id="pase_dia" size="2" name="boletos[]" placeholder="0">
                             </div>
                         </div>
                     </li>
@@ -113,7 +49,7 @@
                             </ul>
                             <div class="orden">
                                 <label for="pase_completo">Boletos deseados:</label>
-                                <input type="number" min="0" id="pase_completo" size="2" placeholder="0">
+                                <input type="number" min="0" id="pase_completo" size="2" name="boletos[]" placeholder="0">
                             </div>
                         </div>
                     </li>
@@ -128,7 +64,7 @@
                             </ul>
                             <div class="orden">
                                 <label for="pase_dosdias">Boletos deseados:</label>
-                                <input type="number" min="0" id="pase_dosdias" size="2" placeholder="0">
+                                <input type="number" min="0" id="pase_dosdias" size="2" name="boletos[]" placeholder="0">
                             </div>
                         </div>
                     </li>
@@ -217,21 +153,21 @@
                     <div class="extras">
                         <div class="orden">
                             <label for="camisa_evento">Camisa del evento $10 <small>(promoción 7% dto.)</small></label>
-                            <input type="number" min="0" id="camisa_evento" size="3" placeholder="0">
+                            <input type="number" min="0" id="camisa_evento" name="pedido_camisas" size="3" placeholder="0">
                         </div>
                         <!--Cierre orden-->
                         <div class="orden">
                             <label for="etiquetas">Paquete de 10 etiquetas $2 <small>(HTML5, CSS3, JavaScript, Chrome)</small></label>
-                            <input type="number" min="0" id="etiquetas" size="3" placeholder="0">
+                            <input type="number" min="0" id="etiquetas" size="3" name="pedido_etiquetas" placeholder="0">
                         </div>
                         <!--Cierre orden-->
                         <div class="orden">
                             <label for="regalo">Seleccione un regalo</label>
-                            <select id="regalo" required>
+                            <select id="regalo" name="regalo" required>
                                 <option value="">-Seleccione un regalo</option>
-                                <option value="ETI">Etiquetas</option>
-                                <option value="PUL">Pulseras</option>
-                                <option value="PLU">Plumas</option>
+                                <option value="2">Etiquetas</option>
+                                <option value="1">Pulseras</option>
+                                <option value="3">Plumas</option>
                             </select>
                         </div>
                         <!--Cierre orden-->
@@ -247,7 +183,10 @@
                         <div id="suma_total">
 
                         </div>
-                        <input type="submit" id="btnregistro" class="boton" value="Pagar">
+
+                        <input type="hidden" name="total_pedido" id="total_pedido">
+
+                        <input type="submit" id="btnregistro" name="submit" class="boton" value="Pagar">
                     </div>
                     <!--total-->
                 </div>
@@ -257,57 +196,4 @@
         </form>
     </section>
 
-    <footer class="site-footer">
-        <div class="contenedor clearfix">
-            <div class="footer-informacion">
-                <h3>Sobre <span>GDLWebCamp</span></h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse quas iusto dolorem placeat incidunt consectetur unde officia ea libero corrupti, adipisci pariatur nulla nobis dolor repudiandae, enim tempora dolore omnis!</p>
-            </div>
-            <div class="ultimos-tweets">
-                <h3>Últimos <span>tweets</span></h3>
-                <ul>
-                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam molestiae dolor iusto veritatis quisquam. Aperiam, quis eius officia labore consequatur unde tempore ducimus qui, asperiores perferendis minus a fugiat commodi.</li>
-                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse consectetur similique quidem ut voluptates voluptatem cupiditate molestiae consequatur porro voluptas, laboriosam mollitia tenetur possimus est laudantium ducimus alias
-                        animi perspiciatis?</li>
-                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque vitae et perferendis aut saepe provident optio dolore cupiditate dolores velit necessitatibus odit quidem, cumque sequi nulla praesentium tenetur. Quia, itaque.</li>
-                </ul>
-            </div>
-            <div class="menu">
-                <h3>Redes <span>sociales</span></h3>
-                <nav class="redes-sociales">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </nav>
-            </div>
-        </div>
-        <p class="copyright">Todos los Derechos Reservados GDLWebCamp</p>
-    </footer>
-
-
-
-    <script src="js/vendor/modernizr-3.8.0.min.js "></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js " integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin=" anonymous "></script>
-    <script>
-        window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js "><\/script>')
-    </script>
-    <script src="js/plugins.js "></script>
-    <script src="js/main.js "></script>
-
-    <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-    <script>
-        window.ga = function() {
-            ga.q.push(arguments)
-        };
-        ga.q = [];
-        ga.l = +new Date;
-        ga('create', 'UA-XXXXX-Y', 'auto');
-        ga('set', 'transport', 'beacon');
-        ga('send', 'pageview')
-    </script>
-    <script src="https://www.google-analytics.com/analytics.js " async></script>
-</body>
-
-</html>
+    <?php include_once 'includes/templates/footer.php'; ?>

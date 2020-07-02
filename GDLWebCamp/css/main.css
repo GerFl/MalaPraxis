@@ -940,7 +940,7 @@ p.copyright {
 
 /** CONFERENCIA **/
 
-body.conferencia .navegacion-principal .activo {
+.navegacion-principal .activo {
     border-bottom: 2px solid #FE4918;
 }
 
@@ -1082,6 +1082,67 @@ div.paquetes .tabla-precio input {
     padding: 20px;
     text-align: center;
     display: none;
+}
+
+
+/* CALENDARIO */
+
+div.calendario h3 {
+    background-color: #FE4918;
+    clear: both;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 10px 0;
+}
+
+div.calendario::after {
+    clear: both;
+    display: block;
+    content: '';
+}
+
+div.dia {
+    width: 50%;
+    float: left;
+    border: 2px solid #E1E1E1;
+    transition: all .3s ease;
+}
+
+@media only screen and (min-width: 768px) {
+    div.dia {
+        width: 33.3%;
+        min-height: 240px;
+        padding-top: 20px;
+    }
+}
+
+div.dia:hover {
+    background-color: #E1E1E1;
+    -webkit-transform: scale(1.1);
+}
+
+div.dia p.titulo {
+    color: #FE4918;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+div.dia p,
+div.dia p {
+    font-size: 1em;
+}
+
+div.dia i {
+    color: #FE4918;
+    font-size: 1.6em;
+}
+
+
+/* COLORBOX */
+
+div.cboxElement {
+    padding: 30px!important;
+    text-align: center;
 }
 
 

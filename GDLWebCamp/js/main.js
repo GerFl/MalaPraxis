@@ -34,6 +34,10 @@
         // EXTRAS
         var etiquetas = document.getElementById('etiquetas');
         var camisas = document.getElementById('camisa_evento');
+
+        btnregistro.disabled = true;
+
+
         if (document.getElementById('calcular')) {
             calcular.addEventListener('click', calcularMontos);
             pase_dia.addEventListener('blur', mostrardias);
@@ -106,7 +110,10 @@
                     for (let i = 0; i < listadoproductos.length; i++) {
                         lista_productos.innerHTML += listadoproductos[i] + '<br/>';
                     }
+
                     sumatotal.innerHTML = "$ " + totalpagar.toFixed(2);
+                    btnregistro.disabled = false;
+                    document.getElementById('total_pedido').value = totalpagar;
 
                 }
             }
@@ -151,6 +158,12 @@ $(function() {
     // LETTERING
     $('.nombre-sitio').lettering();
 
+    // AGREGAR CLASES AL MENÚ
+
+    $('body.conferencia .navegacion-principal a:contains("Conferencia")').addClass('activo');
+    $('body.calendario .navegacion-principal a:contains("Calendario")').addClass('activo');
+    $('body.invitados .navegacion-principal a:contains("Invitados")').addClass('activo');
+
     // MENU FIJO
     var windowHeight = $(window).height();
     var barraAltura = $('.barra').innerHeight();
@@ -194,5 +207,8 @@ $(function() {
         $('#horas').html(event.strftime('%H'));
         $('#minutos').html(event.strftime('%M'));
         $('#segundos').html(event.strftime('%S'));
-    })
+    });
+
+    /* COLORBOX */
+    $('.invitado-info').colorbox({ inline: true, width: "50%" });
 });

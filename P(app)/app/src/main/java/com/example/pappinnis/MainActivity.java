@@ -23,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
     private SeekBar pimientos;
     private SeekBar elote;
     private SeekBar frijoles;
+    private SeekBar cebolla;
+    private SeekBar chorizo;
+    private SeekBar salchicha;
+    private SeekBar salchichaitaliana;
+    private SeekBar tocino;
     private Button button;
 
     public static final String SHARED_PREFS="sharedPrefs";
@@ -38,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
     public static final String SEEKBAR10="seek10";
     public static final String SEEKBAR11="seek11";
     public static final String SEEKBAR12="seek12";
+    public static final String SEEKBAR13="seek13";
+    public static final String SEEKBAR14="seek14";
+    public static final String SEEKBAR15="seek15";
+    public static final String SEEKBAR16="seek16";
+    public static final String SEEKBAR17="seek17";
 
     private int seekprog1;
     private int seekprog2;
@@ -51,6 +61,12 @@ public class MainActivity extends AppCompatActivity {
     private int seekprog10;
     private int seekprog11;
     private int seekprog12;
+    private int seekprog13;
+    private int seekprog14;
+    private int seekprog15;
+    private int seekprog16;
+    private int seekprog17;
+
 
 
     @Override
@@ -70,6 +86,11 @@ public class MainActivity extends AppCompatActivity {
         pimientos=(SeekBar) findViewById(R.id.pimientos);
         elote=(SeekBar) findViewById(R.id.elote);
         frijoles=(SeekBar) findViewById(R.id.frijoles);
+        cebolla=(SeekBar) findViewById(R.id.cebolla);
+        chorizo=(SeekBar) findViewById(R.id.chorizo);
+        salchicha=(SeekBar) findViewById(R.id.salchicha);
+        salchichaitaliana=(SeekBar) findViewById(R.id.salchichaitaliana);
+        tocino=(SeekBar) findViewById(R.id.tocino);
         button=(Button) findViewById(R.id.button);
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +121,11 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt(SEEKBAR10,pimientos.getProgress());
         editor.putInt(SEEKBAR11,elote.getProgress());
         editor.putInt(SEEKBAR12,frijoles.getProgress());
+        editor.putInt(SEEKBAR13,cebolla.getProgress());
+        editor.putInt(SEEKBAR14,chorizo.getProgress());
+        editor.putInt(SEEKBAR15,salchicha.getProgress());
+        editor.putInt(SEEKBAR16,salchichaitaliana.getProgress());
+        editor.putInt(SEEKBAR17,tocino.getProgress());
 
         editor.apply();
         Toast.makeText(this,"Datos guardados",Toast.LENGTH_SHORT).show();
@@ -120,6 +146,11 @@ public class MainActivity extends AppCompatActivity {
         seekprog10=sharedPreferences.getInt(SEEKBAR10,0);
         seekprog11=sharedPreferences.getInt(SEEKBAR11,0);
         seekprog12=sharedPreferences.getInt(SEEKBAR12,0);
+        seekprog13=sharedPreferences.getInt(SEEKBAR13,0);
+        seekprog14=sharedPreferences.getInt(SEEKBAR14,0);
+        seekprog15=sharedPreferences.getInt(SEEKBAR15,0);
+        seekprog16=sharedPreferences.getInt(SEEKBAR16,0);
+        seekprog17=sharedPreferences.getInt(SEEKBAR17,0);
 
     }
 
@@ -136,5 +167,10 @@ public class MainActivity extends AppCompatActivity {
         pimientos.setProgress(seekprog10);
         elote.setProgress(seekprog11);
         frijoles.setProgress(seekprog12);
+        cebolla.setProgress(seekprog13);
+        chorizo.setProgress(seekprog14);
+        salchicha.setProgress(seekprog15);
+        salchichaitaliana.setProgress(seekprog16);
+        tocino.setProgress(seekprog17);
     }
 }
