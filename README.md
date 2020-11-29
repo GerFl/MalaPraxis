@@ -1,10 +1,9 @@
 # MalaPraxis
 -GDLWebCamp ni siquiera es mi proyecto jsjs
 
--Heart-Soul está feo, se hizo para Taller de POO
+-Heart-Soul está feo
 
--SalondeFiestas ta feo tmb, proyecto de Base de datos y lenguajes
+-SalondeFiestas ta feo tmb
 
 -Papp es la primer aplicación Android que realmente no hace nada interesanteyestaversionnoeslaqueinstaleporqueesalaborreporerrorAAAAAAAAAAA ewe
-Próx.: PManager, Game
-
+Próx.: PManager, TheGame
