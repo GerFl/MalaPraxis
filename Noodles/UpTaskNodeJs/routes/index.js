@@ -44,6 +44,7 @@ module.exports = function() { // Para exportar las rutas al archivo de index.js
 
     // Crear nueva cuenta
     router.get('/crear-cuenta', usuariosController.formCrearCuenta);
+    router.post('/crear-cuenta', usuariosController.crearCuenta);
 
     return router;
 }

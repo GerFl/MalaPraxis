@@ -4,6 +4,9 @@ const routes = require('./routes'); // Importa las rutas del index.js de Routes
 const path = require('path');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
+const flash = require('connect-flash');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 // Helpers con algunas funciones
 const helpers = require('./helpers');
@@ -36,6 +39,16 @@ app.use(bodyParser.urlencoded({ extend: true }));
 // Añadir Express validator
 // app.use(expressValidator());
 
+// Agregar flash messages
+app.use(flash());
+app.use(cookieParser());
+// Express session para navegar entre distintas páginas sin volvernos a autenticar
+app.use(session({
+    secret: 'supersecreto',
+    resave: false,
+    saveUninitialized: false
+}));
+
 
 // Añadir la carpeta de las vistas
 app.set('views', path.join(__dirname, './views'));
@@ -44,6 +57,7 @@ app.set('views', path.join(__dirname, './views'));
 app.use((req, res, next) => {
     // res.locals es un método para crear variables y consumirlas en cualquier archivo, por eso tiene el res y req
     res.locals.vardump = helpers.vardump; // Se lee esta acción
+    res.locals.mensajes = req.flash();
     next(); // Se va a la siguiente acción
 });
 
