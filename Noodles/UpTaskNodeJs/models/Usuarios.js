@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt-nodejs');
 const db = require('../config/db');
-const proyectos = require('./Proyectos');
+const Proyectos = require('../models/Proyectos');
 
 const Usuarios = db.define('usuarios', {
     id: {
@@ -43,7 +43,13 @@ const Usuarios = db.define('usuarios', {
         }
     }
 });
-// Usuarios.hasMany(proyectos); // Indica que puede tener múltiples proyectos
+
+// Métodos personalizados
+Usuarios.prototype.verificarPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+}
+
+Usuarios.hasMany(Proyectos); // Indica que puede tener múltiples proyectos
 // El problema es la linea de arriba
 
 module.exports = Usuarios;

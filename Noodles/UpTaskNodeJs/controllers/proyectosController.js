@@ -3,7 +3,9 @@ const slug = require('slug');
 const Tareas = require('../models/Tareas');
 
 exports.proyectosHome = async(req, res) => { // Request es cuando envias, response lo que devuelve el servidor
-    const proyectos = await Proyectos.findAll();
+    // console.log(res.locals.usuario);
+    const usuarioId = res.locals.usuario.id;
+    const proyectos = await Proyectos.findAll({ where: { usuarioId } });
 
     res.render('index', {
         nombrePagina: 'Proyectos',
@@ -12,14 +14,16 @@ exports.proyectosHome = async(req, res) => { // Request es cuando envias, respon
 }
 
 exports.formularioProyecto = async(req, res) => {
-    const proyectos = await Proyectos.findAll();
+    const usuarioId = res.locals.usuario.id;
+    const proyectos = await Proyectos.findAll({ where: { usuarioId } });
     res.render('nuevoProyecto', {
         nombrePagina: 'Nuevo Proyecto',
         proyectos
     });
 }
 exports.nuevoProyecto = async(req, res) => {
-    const proyectos = await Proyectos.findAll();
+    const usuarioId = res.locals.usuario.id;
+    const proyectos = await Proyectos.findAll({ where: { usuarioId } });
     // res.send("Enviaste algo");
     // Enviar a la consola lo que el usuario escriba
     // console.log(req.body);
@@ -37,8 +41,10 @@ exports.nuevoProyecto = async(req, res) => {
             errores,
             proyectos
         })
-    } else { // No hay errores. Insertar en la BD
-        await Proyectos.create({ nombre });
+    } else {
+        // No hay errores. Insertar en la BD
+        const usuarioId = res.locals.usuario.id;
+        await Proyectos.create({ nombre, usuarioId });
         res.redirect('/');
         // .then(() => console.log('Insertado correctamente'))
         // .catch(error => console.log(error));
@@ -58,10 +64,12 @@ exports.proyectoPorUrl = async(req, res, next) => {
         Se pueden utilizar promesas para mejorar el performance.
         Props to ddFanybb
     */
-    const proyectosPromise = Proyectos.findAll(); // Estos promises corren en paralelo
+    const usuarioId = res.locals.usuario.id;
+    const proyectosPromise = Proyectos.findAll({ where: { usuarioId } }); // Estos promises corren en paralelo
     const proyectoPromise = Proyectos.findOne({
         where: {
-            url: req.params.url
+            url: req.params.url,
+            usuarioId
         }
     });
     // Object destructuring
@@ -106,10 +114,12 @@ exports.formularioEditar = async(req, res) => {
         Se pueden utilizar promesas para mejorar el performance.
         Props to ddFanybb
     */
-    const proyectosPromise = Proyectos.findAll();
+    const usuarioId = res.locals.usuario.id;
+    const proyectosPromise = Proyectos.findAll({ where: { usuarioId } });
     const proyectoPromise = Proyectos.findOne({
         where: {
-            id: req.params.id
+            id: req.params.id,
+            usuarioId
         }
     });
     // Object destructuring
@@ -123,7 +133,8 @@ exports.formularioEditar = async(req, res) => {
 }
 
 exports.actualizarProyecto = async(req, res) => {
-    const proyectos = await Proyectos.findAll();
+    const usuarioId = res.locals.usuario.id;
+    const proyectos = await Proyectos.findAll({ where: { usuarioId } });
     // res.send("Enviaste algo");
     // Enviar a la consola lo que el usuario escriba
     // console.log(req.body);

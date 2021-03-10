@@ -7,6 +7,7 @@ const expressValidator = require('express-validator');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const passport = require('./config/passport');
 
 // Helpers con algunas funciones
 const helpers = require('./helpers');
@@ -49,6 +50,9 @@ app.use(session({
     saveUninitialized: false
 }));
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // Añadir la carpeta de las vistas
 app.set('views', path.join(__dirname, './views'));
@@ -58,6 +62,7 @@ app.use((req, res, next) => {
     // res.locals es un método para crear variables y consumirlas en cualquier archivo, por eso tiene el res y req
     res.locals.vardump = helpers.vardump; // Se lee esta acción
     res.locals.mensajes = req.flash();
+    res.locals.usuario = {...req.user } || null; // Crear una copia del sesion, si está undefined entonces null
     next(); // Se va a la siguiente acción
 });
 

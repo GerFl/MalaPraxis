@@ -7,6 +7,7 @@ const { body } = require('express-validator'); // Check tiene todos los métodos
 const proyectosController = require('../controllers/proyectosController');
 const tareasController = require('../controllers/tareasController');
 const usuariosController = require('../controllers/usuariosController');
+const authController = require('../controllers/authController');
 
 module.exports = function() { // Para exportar las rutas al archivo de index.js
     // Ruta para el Home
@@ -14,37 +15,69 @@ module.exports = function() { // Para exportar las rutas al archivo de index.js
         .use - Para cualquier request, se correrá el código de ese bloque
         .send - Imprime un resultado
     */
-    router.get('/', proyectosController.proyectosHome); // Middleware de Express
-    router.get('/nuevo-proyecto', proyectosController.formularioProyecto);
+    router.get('/',
+        authController.usuarioAutenticado,
+        proyectosController.proyectosHome // Este es el siguiente middleware
+    ); // Middleware de Express
+    router.get('/nuevo-proyecto',
+        authController.usuarioAutenticado,
+        proyectosController.formularioProyecto
+    );
     router.post('/nuevo-proyecto',
+        authController.usuarioAutenticado,
         body('nombre').not().isEmpty().trim().escape(),
-        proyectosController.nuevoProyecto);
+        proyectosController.nuevoProyecto
+    );
 
     // Listar proyectos
-    router.get('/proyectos/:url', proyectosController.proyectoPorUrl);
+    router.get('/proyectos/:url',
+        authController.usuarioAutenticado,
+        proyectosController.proyectoPorUrl
+    );
 
     // Actualizar el proyecto
-    router.get('/proyecto/editar/:id', proyectosController.formularioEditar);
-
+    router.get('/proyecto/editar/:id',
+        authController.usuarioAutenticado,
+        proyectosController.formularioEditar
+    );
     router.post('/nuevo-proyecto/:id',
+        authController.usuarioAutenticado,
         body('nombre').not().isEmpty().trim().escape(),
-        proyectosController.actualizarProyecto);
+        proyectosController.actualizarProyecto
+    );
 
     // Eliminar Proyecto
-    router.delete('/proyectos/:url', proyectosController.eliminarProyecto);
+    router.delete('/proyectos/:url',
+        authController.usuarioAutenticado,
+        proyectosController.eliminarProyecto
+    );
 
     // Tareas
     // Se creó controlador nuevo debido a que ya van a ser operaciones diferentes xd
-    router.post('/proyectos/:url', tareasController.agregarTarea);
+    router.post('/proyectos/:url',
+        authController.usuarioAutenticado,
+        tareasController.agregarTarea
+    );
     // Actualizar tarea
     // Patch solo cambia una porción del objeto, mientras que PUT sobreescribe todo básicamente
-    router.patch('/tareas/:id', tareasController.cambiarEstadoTarea);
+    router.patch('/tareas/:id',
+        authController.usuarioAutenticado,
+        tareasController.cambiarEstadoTarea
+    );
     // Eliminar tarea
-    router.delete('/tareas/:id', tareasController.eliminarTarea);
+    router.delete('/tareas/:id',
+        authController.usuarioAutenticado,
+        tareasController.eliminarTarea
+    );
 
     // Crear nueva cuenta
     router.get('/crear-cuenta', usuariosController.formCrearCuenta);
     router.post('/crear-cuenta', usuariosController.crearCuenta);
+    // Iniciar sesión
+    router.get('/iniciar-sesion', usuariosController.formIniciarSesion);
+    router.post('/iniciar-sesion', authController.autenticarUsuario);
+    // Cerrar sesión
+    router.get('/cerrar-sesion', authController.cerrarSesion);
 
     return router;
 }
