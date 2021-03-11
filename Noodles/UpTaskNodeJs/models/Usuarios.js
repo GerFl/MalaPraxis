@@ -33,7 +33,13 @@ const Usuarios = db.define('usuarios', {
                 msg: "El password no puede ir vacío"
             }
         }
-    }
+    },
+    activo: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+    },
+    token: Sequelize.STRING,
+    expiracion: Sequelize.DATE
 }, {
     hooks: { // Todo esto es trabajo del ORM
         beforeCreate(usuario) {

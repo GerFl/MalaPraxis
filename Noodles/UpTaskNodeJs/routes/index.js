@@ -73,11 +73,17 @@ module.exports = function() { // Para exportar las rutas al archivo de index.js
     // Crear nueva cuenta
     router.get('/crear-cuenta', usuariosController.formCrearCuenta);
     router.post('/crear-cuenta', usuariosController.crearCuenta);
+    router.get('/confirmar/:correo', usuariosController.confirmarCuenta);
     // Iniciar sesión
     router.get('/iniciar-sesion', usuariosController.formIniciarSesion);
     router.post('/iniciar-sesion', authController.autenticarUsuario);
     // Cerrar sesión
     router.get('/cerrar-sesion', authController.cerrarSesion);
+    // Reestablecer contraseña
+    router.get('/reestablecer', usuariosController.formReestablecerPassword);
+    router.post('/reestablecer', authController.enviarToken);
+    router.get('/reestablecer/:token', authController.validarToken);
+    router.post('/reestablecer/:token', authController.actualizarPassword);
 
     return router;
 }
