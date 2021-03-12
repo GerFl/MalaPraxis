@@ -1,3 +1,7 @@
+{{!--
+    Sintaxis de HTML. Las variables se tienen que encerrar entre dos brackets y 
+    los bloques de contenido en tres brackets.
+--}}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,18 +11,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/app.css">
-    <title>{{nombrePagina}}</title>
+    <title>{{nombrePagina}}</title> {{!-- El nombre de página viene desde el controlador --}}
 </head>
 <body>
 
     <div class="nombre-sitio contenedor">
         <h1>
-            <a href="/">devJobs</a>
+            <a href="/">devJobs</a> {{!-- Envia hacia la página principal --}}
         </h1>
+        {{#if barra}} <!-- No hay nada que explicar, es como en JavaScript, para verificar si una variable existe o no. -->
+            <div class="buscador">
+                <form action="#">
+                    <input type="text" class="buscar">
+                    <input type="submit" value="Buscar">
+                </form>
+            </div>
+        {{/if}}
     </div>
 
-    <div class="contenido-principal contendor">
-        {{{body}}}
+    <header class="site-header contenedor separador">
+        <h2>{{nombrePagina}}</h2>
+        {{#if tagline}}
+            <p class="tagline">{{tagline}}</p>
+        {{/if}}
+        {{#if boton}}
+            <a href="/vacantes/nueva" class="btn btn-azul">Publicar nueva vacante</a>
+        {{/if}}
+    </header>
+
+    <div class="contenido-principal contenedor">
+        {{{body}}} 
+        <!-- Lo que tengamos en los demás templates se va a heredar aquí.
+        Eso es debido a que en nuestro index ya indicamos que se realize de manera automática en este archivo 
+        de layout. Por eso se definió como el principal. -->
     </div>
 
 </body>
