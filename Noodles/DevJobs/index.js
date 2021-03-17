@@ -8,12 +8,16 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
+const bodyParser = require('body-parser');
 
 // Importamos el módulo para acceder al archivo de variables de entorno mediante el path
 require('dotenv').config({ path: 'variables.env' });
 
 // Inicializar la app pasando express como función
 app = express();
+// Habilitar body parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Habilitar Handlebars como Template Engine
 app.engine('handlebars',
