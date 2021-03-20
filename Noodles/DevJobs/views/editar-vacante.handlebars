@@ -1,46 +1,48 @@
 <main class="contenedor">
-    <form action="/vacantes/nueva" method="POST" class="default-form">
+    <form action="/vacantes/editar/{{vacante.url}}" method="POST" class="default-form">
         <h3>Información general</h3>
         <div class="campo">
             <label>Título</label>
-            <input type="text" name="titulo" placeholder="Ej: React Developer" required>
+            <input type="text" name="titulo" placeholder="Ej: React Developer" value="{{vacante.titulo}}" required>
         </div>
         <div class="campo">
             <label>Empresa</label>
-            <input type="text" name="empresa" placeholder="Empresa contrata" required>
+            <input type="text" name="empresa" placeholder="Empresa contrata" value="{{vacante.empresa}}" required>
         </div>
         <div class="campo">
             <label>Ubicación</label>
-            <input type="text" name="ubicacion" placeholder="Ej: México" required>
+            <input type="text" name="ubicacion" placeholder="Ej: México" value="{{vacante.ubicacion}}" required>
         </div>
         <div class="campo">
             <label>Salario (USD)</label>
-            <input type="text" name="salario" placeholder="Ej: 500 usd" required>
+            <input type="text" name="salario" placeholder="Ej: 500 usd" value="{{vacante.salario}}" required>
         </div>
         <div class="campo">
             <label>Contrato</label>
             <select name="contrato">
+            {{#tipoContrato vacante.contrato}} <!-- Usamos el helper y pasamos vacante.contrato como parámetro a evaluar-->
                 <option value="" disabled selected>-- Selecciona --</option>
                 <option value="Freelance">Freelance</option>
                 <option value="Tiempo Completo">Tiempo completo</option>
                 <option value="Medio tiempo">Medio tiempo</option>
                 <option value="Por proyecto">Por proyecto</option>
+            {{/tipoContrato}}
             </select>
         </div>
         <h3>Descripción del puesto</h3>
         <div class="campo descripcion">
             <label>Descripción</label>
-            <input type="hidden" name="descripcion" id="x">
+            <input type="hidden" value="{{{vacante.descripcion}}}" name="descripcion" id="x">
             <trix-editor input="x"></trix-editor>
         </div>
         <h3>Conocimientos:</h3>
         <ul class="lista-conocimientos">
-            {{#seleccionarSkills a}}
+            {{#seleccionarSkills vacante.skills}}
             {{/seleccionarSkills}}
         </ul>
         <div class="campo centrar-horizontal">
             <input type="hidden" name="skills" id="skills">
-            <input type="submit" class="btn btn-azul" value="Publicar">
+            <input type="submit" class="btn btn-azul" value="Guardar cambios">
         </div>
 
     </form>
