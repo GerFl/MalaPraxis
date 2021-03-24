@@ -9,6 +9,9 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
+const expressValidator = require('express-validator');
+const flash = require('connect-flash');
+const passport = require('./config/passport');
 
 // Importamos el módulo para acceder al archivo de variables de entorno mediante el path
 require('dotenv').config({ path: 'variables.env' });
@@ -18,6 +21,9 @@ app = express();
 // Habilitar body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Validación de campos
+app.use(expressValidator());
 
 // Habilitar Handlebars como Template Engine
 app.engine('handlebars',
@@ -47,6 +53,17 @@ app.use(session({
     saveUninitialized: false,
     store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
+// Inicializar passport
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+// Alertas y flash messages
+app.use(flash());
+// Crear nuestro middleware para guardar los mensajes y ver el usuario autenticado
+app.use((req, res, next) => {
+    res.locals.mensajes = req.flash();
+    next();
+});
 
 // Indicar la página principal
 app.use('/', router());

@@ -17,5 +17,21 @@ module.exports = {
         return opciones.fn(this).replace( // Se evalua el html, que vendría siendo el valor del selected
             new RegExp(`value="${seleccionado}"`), '$& selected="selected"' // Cuando se encuentre el seleccionado se agregará el valor y además uel atributo selected. Se inyecta el atributo selected donde se encuentre el valor que se busca.
         );
+    },
+    mostrarAlertas: (errores = {}, alertas) => {
+        const categoria = Object.keys(errores);
+        console.log(errores[categoria]);
+        console.log(categoria);
+        let html = '';
+        if (categoria.length) {
+            errores[categoria].forEach(error => {
+                html += `<div class="${categoria} alerta">
+                    ${error}
+                </div>
+                `;
+            });
+        }
+        console.log(html);
+        return alertas.fn().html = html;
     }
 }

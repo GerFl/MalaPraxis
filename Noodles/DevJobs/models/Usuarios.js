@@ -39,4 +39,22 @@ usuariosSchema.pre('save', async function(next) {
     next();
 });
 
+
+// Envia una laerta cuando un usuario ya está registrado
+usuariosSchema.post('save', function(error, doc, next) {
+    if (error.name === 'MongoError' && error.code === 11000) {
+        next("Ese correo ya está registrado");
+    } else {
+        next(error);
+    }
+});
+
+// Autenticar usuarios
+// Esta función se manda a llamr en el archivo de ../config/passport.js
+usuariosSchema.methods = {
+    compararPassword: function(password) {
+        return bcrypt.compareSync(password, this.password);
+    }
+}
+
 module.exports = mongoose.model('Usuarios', usuariosSchema);
