@@ -40,7 +40,12 @@ const vacantesSchema = new mongoose.Schema({
         nombre: String,
         email: String,
         cv: String
-    }]
+    }],
+    autor: { // Para hacer referencia al modelo de Usuarios
+        type: mongoose.Schema.ObjectId,
+        ref: 'Usuarios',
+        required: 'El autor es obligatorio'
+    }
 });
 // Similar a un hook con Sequelize
 vacantesSchema.pre('save', function(next) {
