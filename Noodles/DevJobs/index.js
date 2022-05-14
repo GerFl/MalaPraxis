@@ -12,6 +12,7 @@ const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const flash = require('connect-flash');
 const passport = require('./config/passport');
+const createError = require('http-errors');
 
 // Importamos el módulo para acceder al archivo de variables de entorno mediante el path
 require('dotenv').config({ path: 'variables.env' });
@@ -67,6 +68,20 @@ app.use((req, res, next) => {
 
 // Indicar la página principal
 app.use('/', router());
+
+// Manejo de errores
+// 404 - pagina no existente
+app.use((req, res, next) => {
+    next(createError(404, "No encontrado")); // Declaramos el mensaje para este error
+});
+// Administracion de los errores
+app.use((error, req, res, next) => {
+    res.locals.mensaje = error.message;
+    const status = error.status || 500; // En caso de que haya error pero no sea 404, ponemos 500 como default
+    res.locals.status = status;
+    res.status(status);
+    res.render('error');
+});
 
 // Indicar el puerto mediante la variable de entorno
 app.listen(process.env.PUERTO);

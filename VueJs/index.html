@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Salgo acicala'</title>
+</head>
+
+<body>
+    <div class="nav-bar"></div>
+    <!-- Este es el div que se buscara desde la app de Vue que tenemos en el script -->
+    <div id="app">
+        <div class="product">
+            <div class="product-image">
+                <!-- v-bind sirve para linkear los datos a la expresion del atributo.
+                    Osea, el atributo src de nuestro elemento img tiene una expresion
+                    que en este caso se llama image. Esa expresion se llenara con el campo
+                    correspondiente en el data de la app en el script, osea
+                    pondra la ruta de la imagen
+                -->
+                <img v-bind:src="image" alt="Calcetines">
+            </div>
+            <div class="product-info">
+                <!-- Esto es una impresion simple. Se pone el campo de data que tenemos en el script -->
+                <h1>{{product}}</h1>
+                <!-- Condicionales de valores booleanos que tenemos en el data -->
+                <!-- <p v-if="inStock">In Stock</p>
+                <p v-else>Out of Stock</p> -->
+                <!-- Cuando se usan las condicionales, estas dictan si el elemento se muestra o no en el DOM.
+                    Cuando se utiliza v-show, el elemento se imprime en el DOM pero dependiendo del valor es el display.
+                    v-show:false -> display:none
+                    Selecciona lo que mas le convenga a la aplicacion
+                -->
+                <p v-if="inventory>10">In Stock</p>
+                <p v-else-if="inventory<=10 && inventory>0">Almost Sold Out!</p>
+                <p v-else>Out of Stock</p>
+                <span v-if="onSale">On Sale!</span>
+                <h2>{{description}}</h2>
+                <ul>
+                    <!-- v-for es otra directiva de Vue, como v-if, v-bind...
+                    El resto...vamos, yo se que conoces esa sintaxis para iterar elementos -->
+                    <li v-for="detail in details">{{ detail }}</li>
+                </ul>
+                <!-- Se recomienda utilizar una llave para tener un mejor orden al imprimir listas...(?) -->
+                <div v-for="variant in variants" :key="variant.variantId">
+                    <!-- Mouseover funciona como un hover. Pasamos la imagen de la variante actual como parametro -->
+                    <p @mouseover="updateProduct(variant.variantImage)">{{ variant.variantColor }}</p>
+                </div>
+                <ul>
+                    <li v-for="size in sizes">{{ size }}</li>
+                </ul>
+                <p>Algo rico:</p>
+                <!-- Hace exactamente lo mismo que en el v-bind:src de arriba, solo
+                que aqui se trae el link que tengamos en el script -->
+                <a v-bind:href="link" target="_blank">Pínchale aquí</a>
+
+                <!-- Piensa en esto como un addEventListener de tipo click.
+                Este evento dispara la funcion que se establecio en el script -->
+                <button v-on:click="addToCart">Add to Cart</button>
+                <button v-on:click="removeFromCart" v-if="cart>0">Remove from Cart</button>
+
+                <div class="cart">
+                    <p>Cart ({{cart}})</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
