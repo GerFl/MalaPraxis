@@ -12,7 +12,7 @@
     "author": "JuanPa de la Torre y Yo mero",
     "license": "ISC",
     "dependencies": {
-        "axios": "^0.21.1",
+        "axios": "^0.21.2",
         "bcrypt-nodejs": "^0.0.3",
         "concurrently": "^5.3.0",
         "connect-flash": "^0.1.1",
