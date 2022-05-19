@@ -11,7 +11,7 @@
     "author": "Yo mero y JuanPa",
     "license": "ISC",
     "dependencies": {
-        "axios": "^0.21.1",
+        "axios": "^0.21.2",
         "bcrypt": "^5.0.1",
         "concurrently": "^6.0.0",
         "connect-flash": "^0.1.1",
